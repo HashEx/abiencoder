@@ -1,0 +1,29 @@
+.method-input__type {
+	display: block;
+}
+
+.method-input__value {
+	margin-top: 20px;
+	display: block;
+}
+
+.section-choose__buttons {
+	text-align: center;
+	padding: 20px 0;
+}
+
+.section-choose__buttons .button {
+	cursor: pointer;
+    color: #fff;
+    background: none;
+	margin: 5px;
+}
+
+.section-choose__buttons .button.add-param {
+	color: #1f1f1f;
+	background: #c2f051;
+}
+
+.section-choose__buttons .button.remove-param:hover {
+	background: none;
+}

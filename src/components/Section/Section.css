@@ -1,0 +1,11 @@
+.section {
+    margin: 50px auto;
+}
+
+.section__title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+    margin: 0 0 20px;
+}

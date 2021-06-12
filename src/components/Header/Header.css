@@ -1,0 +1,42 @@
+.header {
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.header__logo {
+	width: 120px;
+	height: 26px
+}
+
+.header__logo a {
+	color: #fff;
+}
+
+.header__logo a:hover {
+	color: #c2f051
+}
+
+header ul {
+	margin: 0;
+	padding: 0
+}
+
+header ul li {
+	display: inline-block;
+	list-style-type: none;
+	padding: 0 12px
+}
+
+header ul li a {
+	color: #fff;
+	-webkit-transition: .1s;
+	transition: .1s;
+	font-size: 12px
+}
+
+header ul li a:hover {
+	color: #c2f051;
+	text-decoration: none
+}
