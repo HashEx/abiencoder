@@ -11,9 +11,13 @@ interface RequestAuditPopupProps {
 }
 
 const useForm = () => {
+    const [error, setError] = useState<any>(null);
     const [form, setForm] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const onResetError = () => {
+        setError(null);
+    }
     const onChange = (e: any) => {
         setForm((prevState: any) => {
             return {
@@ -23,13 +27,17 @@ const useForm = () => {
         })
     }
     const onSubmit = async () => {
+        onResetError();
         setLoading(true);
         try {
-            await requestAuditService.requestAudit({
+            const response = await requestAuditService.requestAudit({
                 email: form.email,
                 code: form.code,
                 comment: form.comment,
             })
+            if(response !== "ok") {
+                throw new Error("Error while sending audit request. Please try again later.")
+            }
             setForm({
                 email: "",
                 code: "",
@@ -39,6 +47,7 @@ const useForm = () => {
             
         } catch(e) {
             console.error(e)
+            setError(e.message);
         }
         setLoading(false);
     }
@@ -48,13 +57,30 @@ const useForm = () => {
         loading,
         onSubmit,
         onChange,
-        submitted
+        submitted,
+        error,
+        onResetError
     }
 }
 
 const RequestAuditPopup: React.FC<RequestAuditPopupProps> = ({onClose}) => {
-    const { form, loading, submitted, onChange, onSubmit } = useForm();
+    const { form, loading, submitted, onChange, onSubmit, error, onResetError } = useForm();
     const disabledSubmit = !form.email || !form.code;
+    if(error) {
+        return (
+            <Popup>
+                <Popup.Title>Request Audit Error</Popup.Title>
+                <p>
+                    {error}
+                </p>
+                <div className="text-center">
+                    <Button onClick={onResetError} hover>
+                        Back
+                    </Button>
+                </div>
+            </Popup>
+        )
+    }
     if(submitted){
         return (
             <Popup onClose={onClose}>
