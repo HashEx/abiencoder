@@ -1,8 +1,10 @@
-# HashEx ABI Encoder
+# ABI Encoder
+
+[https://abi.hashex.org](https://abi.hashex.org)
 
 ## Description
 
-[HashEx](https://hashex.org) offers a free [ABI](https://docs.soliditylang.org/en/v0.8.2/abi-spec.html) decoder online service that allows you to encode your [Solidity](https://docs.soliditylang.org/en/v0.8.6/) contract’s  functions and constructor arguments.
+Free [ABI](https://docs.soliditylang.org/en/v0.8.2/abi-spec.html) encoder online service that allows you to encode your [Solidity](https://docs.soliditylang.org/en/v0.8.6/) contract’s  functions and constructor arguments.
 
 ABI itself is the description of the code interface. It’s a way for the contracts to interact within an ecosystem as well as contract-to-contract.
 
