@@ -58,7 +58,7 @@ Feel free to open PR to add new types.
 
 ## Contributing
 
-The site is powered by [CRA(Create React App)](https://reactjs.org/docs/create-a-new-react-app.html) using [React.js](https://reactjs.org/) and [ethereumjs-abi](https://github.com/ethereumjs/ethereumjs-abi).
+The site is powered by [CRA(Create React App)](https://reactjs.org/docs/create-a-new-react-app.html) using [React.js](https://reactjs.org/) and [ethers.js](https://github.com/ethers-io/ethers.js).
 
 1. Fork the repo on GitHub
 2. Clone the project to your own machine
