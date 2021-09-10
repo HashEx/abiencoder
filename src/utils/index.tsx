@@ -1,4 +1,3 @@
-import abi from 'ethereumjs-abi';
 import { utils } from 'ethers';
 
 import { Parameters } from '../interfaces';
@@ -45,6 +44,8 @@ const parsers: {[x: string]: (value: string) => any} = {
     "bool": (value: string): boolean => value === 'true',
 } 
 
+const abiCoder = new utils.AbiCoder();
+
 export const encode = (parameters: Parameters) => {
     const inputsLength = parameters.inputs.length;
     let types: string[] = [];
@@ -75,7 +76,7 @@ export const encode = (parameters: Parameters) => {
             inputs.push(parser(item.value));   
         }
         try {
-            abi.rawEncode(types, inputs).toString('hex');
+            abiCoder.encode(types, inputs);
             errors[index] = "";
 		} catch (err) {
             valid = false;
@@ -86,9 +87,10 @@ export const encode = (parameters: Parameters) => {
     
 	if (valid) {
 		if (parameters.type !== 'constructor') {
-			encoded += abi.methodID(parameters.funcName, types).toString('hex') 
+			const sig = parameters.funcName + "(" + types.join(",") + ")";
+			encoded += utils.hexDataSlice(utils.id(sig), 0, 4).slice(2);
 		}
-		encoded += abi.rawEncode(types, inputs).toString('hex');
+		encoded += abiCoder.encode(types, inputs).slice(2);
 		return {
             errors,
             encoded
