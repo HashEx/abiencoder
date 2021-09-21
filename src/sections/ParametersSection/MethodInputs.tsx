@@ -4,6 +4,7 @@ import React from 'react';
 import FormGroup from '../../components/FormGroup';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
+import { getPlaceholder } from '../../utils';
 
 interface MethodInputsProps {
     value: any[];
@@ -11,6 +12,9 @@ interface MethodInputsProps {
     options: any[];
     errors?: any[];
 }
+
+
+
 
 const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, errors = [] }) => {
     const handleChange = (index: number) => (name: string) => (e: any) => {
@@ -29,10 +33,12 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                 const handleTypeChange = handleChange(index)("type");
                 const handleValueChange = handleChange(index)("value");
                 const error = errors[index];
+                const {name, type, value} = item;
+                const placeholder = getPlaceholder(type); 
                 return (
                     <div key={index} className="list-element row">
                         <div className="col-md-3">
-                            <FormGroup label={item.name || "Argument"}>
+                            <FormGroup label={name || "Argument"}>
                                 <Select
                                     onChange={handleTypeChange}
                                     value={item.type}
@@ -42,9 +48,9 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                         </div>
                         <div className="col-md-9">
                             <Input
-                                value={item.value}
+                                value={value}
                                 onChange={handleValueChange}
-                                placeholder="Enter arguments without quotes, arrays enter like [1, 2, 3]"
+                                placeholder={placeholder}
                                 className="method-input__value"
                                 type="text"
                                 name="listen"

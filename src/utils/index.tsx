@@ -2,6 +2,61 @@ import { utils } from 'ethers';
 
 import { Parameters } from '../interfaces';
 
+export const isArrayType = (type: string) => {
+    return type.includes("[]");
+}
+
+export const isUintType = (type: string) => {
+    return type.toLowerCase().includes("uint");
+}
+
+export const isBytesType = (type: string) => {
+    return type.toLowerCase().includes("bytes");
+}
+
+export const isAddressType = (type: string) => {
+    return type.toLowerCase().includes("address");
+}
+
+export const isBooleanType = (type: string) => {
+    return type.toLowerCase().includes("bool");
+}
+
+export const getPlaceholder = (type: string) => {
+    const isArray = isArrayType(type);
+    const isUint = isUintType(type);
+    const isBytes = isBytesType(type);
+    const isBoolean = isBooleanType(type);
+    const isAddress = isAddressType(type);
+    
+    let exampleText = ""; 
+
+    if(isArray) {
+        if(isUint || isBytes) {
+            exampleText = "[0,1,2]";
+        } else if(isBoolean) {
+            exampleText = "[true, false, false]";
+        } else if(isAddress) {
+            exampleText = `["0x11...11", "0x21...21", "0x31...31"]`;
+        } else {
+            exampleText = `["str0", "str1", "str2"]`;
+        }
+    }else{
+        if(isUint || isBytes) {
+            exampleText = "111222333";
+        } else if(isBoolean) {
+            exampleText = "false";
+        } else if(isAddress) {
+            exampleText = `0x11...11`;
+        } else {
+            exampleText = `str0`;
+        }
+    }
+
+    return `Example: ${exampleText}`;
+    
+}
+
 
 enum VALIDATE_ERROS {
     NOT_ARRAY = "Invalid input: Value is not an array.",
@@ -66,20 +121,23 @@ export const encode = (parameters: Parameters) => {
     parameters.inputs.forEach((item, index) => {
         const { type, value } = item;
         types.push(item.type);
-        const validator: any = validators[type] || (() => "");
+        const validator: Validator = validators[type] || (() => "");
+        const isArray = isArrayType(type);
         const parser: any = parsers[type] || ((v: any) => v);
-        const errorMessage = validator(value);
+        let errorMessage = validator(value);
+        if(!errorMessage && isArray) {
+            errorMessage = validateArray(value, () => "");
+        }
         if(errorMessage){
             valid = false;
             errors[index] = errorMessage;
             return;
         }else{
-            if(type.includes("[]")){
+            if(isArray && value){
                 inputs.push(JSON.parse(value));
             }else{
                 inputs.push(parser(value));
-            }
-               
+            }  
         }
         try {
             abiCoder.encode(types, inputs);
