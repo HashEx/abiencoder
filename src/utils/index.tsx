@@ -23,7 +23,7 @@ const validateArray = (value: string, itemValidator: Validator) => {
         })
 
         return message;
-    } catch(e) {
+    } catch(e: any) {
         return e.message;
     }
 }
@@ -64,21 +64,27 @@ export const encode = (parameters: Parameters) => {
     }
     
     parameters.inputs.forEach((item, index) => {
+        const { type, value } = item;
         types.push(item.type);
-        const validator: any = validators[item.type] || (() => "");
-        const parser: any = parsers[item.type] || ((v: any) => v);
-        const errorMessage = validator(item.value);
+        const validator: any = validators[type] || (() => "");
+        const parser: any = parsers[type] || ((v: any) => v);
+        const errorMessage = validator(value);
         if(errorMessage){
             valid = false;
             errors[index] = errorMessage;
             return;
         }else{
-            inputs.push(parser(item.value));   
+            if(type.includes("[]")){
+                inputs.push(JSON.parse(value));
+            }else{
+                inputs.push(parser(value));
+            }
+               
         }
         try {
             abiCoder.encode(types, inputs);
             errors[index] = "";
-		} catch (err) {
+		} catch (err: any) {
             valid = false;
             errors[index] = `Invalid input: ${err.message}`;
 		}
