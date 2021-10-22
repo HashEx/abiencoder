@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../components/Button';
 
 
 import FormGroup from '../../components/FormGroup';
@@ -27,6 +28,12 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
             ...value.slice(index + 1)
         ])
     }
+    const onRemoveArgument = (index: number) => (e: any) => {
+        onChange([
+            ...value.slice(0, index),
+            ...value.slice(index + 1)
+        ]);
+    }
     return (
         <>
             {value.map((item, index) => {
@@ -46,7 +53,7 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                                 />
                             </FormGroup>
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-8">
                             <Input
                                 value={value}
                                 onChange={handleValueChange}
@@ -57,6 +64,9 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                                 invalid={!!error}
                             />
                             {error && <label className="error">{error}</label>}
+                        </div>
+                        <div className="col-md-1">
+                            <Button title="Remove argument" className="remove-param" onClick={onRemoveArgument(index)}>&times;</Button>
                         </div>
                     </div>
                 )
