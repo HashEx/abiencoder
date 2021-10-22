@@ -24,6 +24,15 @@
 	background: #c2f051;
 }
 
-.section-choose__buttons .button.remove-param:hover {
+.button.remove-param {
+	color: #fff;
+	background: none;
+	width: auto;
+	padding: 5px 10px;
+	margin-top: 20px;
+	font-size: 20px;
+}
+
+.button.remove-param:hover {
 	background: none;
 }

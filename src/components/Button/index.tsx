@@ -11,6 +11,7 @@ export interface ButtonProps {
     hover?: boolean;
     disabled?: boolean;
     loading?: boolean;
+    title?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({children, className, hover, loading, ...props}) => {

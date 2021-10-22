@@ -129,13 +129,6 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
     })
   }
 
-  const onRemoveArgument = () => {
-    onChange({
-      ...value,
-      inputs: value.inputs.slice(0, value.inputs.length - 1)
-    })
-  }
-
   const onChangeInputs = (inputs: any[]) => {
     onChange({
       ...value,
@@ -160,7 +153,7 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
             </div>
           </FormGroup>
         </div>
-        <div className="col-md-9">
+        <div className="col-md-7">
           {!isConstructor && (
             <Input
               className="method-input__value"
@@ -175,8 +168,7 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
       </div>
       <MethodInputs value={value.inputs} onChange={onChangeInputs} options={argumentOptions} errors={errors} />
       <div className="section-choose__buttons">
-        <Button className="add-param" onClick={onAddArgument}>Add parameter</Button>
-        <Button className="remove-param" onClick={onRemoveArgument}>Remove</Button>
+        <Button className="add-param" onClick={onAddArgument}>Add argument</Button>
       </div>
     </Section>
   )
