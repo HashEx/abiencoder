@@ -1,6 +1,19 @@
 import { Parameters } from '../interfaces';
 
-import { encode, getPlaceholder } from './index';
+import { encode, getPlaceholder, validateArray } from './index';
+
+describe("utils/validateArray", () => {
+    describe("validate string array ", () => {
+        const notEmptyString = (val) => val === "" ? "Value is empty" : "";
+        it("validation message should be empty with correct array", () => {
+            expect(validateArray(["t","t2","t3"], notEmptyString).toEqual("");
+        })
+        
+        it("validation message shouldn't be empty with wrong array", () => {
+            expect(validateArray(["","t2","t3"], notEmptyString).toEqual("Value is empty");
+        })
+    });
+});
 
 describe("utils/encode", () => {
     test("encode function call with arrays", () => {
