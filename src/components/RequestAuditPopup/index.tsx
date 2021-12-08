@@ -101,6 +101,7 @@ const RequestAuditPopup: React.FC<RequestAuditPopupProps> = ({onClose}) => {
             </FormGroup>
             <FormGroup label="GitHub / Source Code URL">
                 <Input onChange={onChange} value={form.code} name="code" />
+                <div className="form-text">For github private repos, please grant read access to user <strong>hashex-dev</strong></div>
             </FormGroup>
             <FormGroup label="Comment">
                 <Input onChange={onChange} value={form.comment} name="comment" />
