@@ -1,4 +1,9 @@
-.CodeMirror {
+.CodeMirror-wrapper {
+    position: relative;
+    color: #fff;
+}
+
+.cm-editor {
 	width: 100%;
 	margin: 0 auto;
 	height: 300px;
@@ -6,32 +11,28 @@
 	border-radius: 0px;
     background-color: #1f1f1f !important;
     color: #fff;
+    box-sizing: content-box;
 }
 
-.CodeMirror-cursor {
+.cm-cursor {
     border-left-color: #fff;
 }
 
-.CodeMirror .cm-property {
+.cm-editor .cm-property {
 	color: #fff !important
 }
 
-.CodeMirror .CodeMirror-gutters {
+.cm-editor .cm-gutters {
     background-color: #1f1f1f;
-    border-right: 1px solid #fff;
+    /* border-right: 1px solid #fff; */
 }
 
-.CodeMirror .CodeMirror-linenumber {
+.cm .cm-linenumber {
 	color: #fff !important
 }
 
-.CodeMirror span[role="presentation"] {
+.cm span[role="presentation"] {
 	color: #c2f051
-}
-
-.CodeMirror-wrapper {
-    position: relative;
-    color: #fff;
 }
 
 .CodeMirror-placeholder {

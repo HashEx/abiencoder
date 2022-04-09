@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import FormGroup from '../../components/FormGroup';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
-import { getPlaceholder } from '../../utils';
+import { getPlaceholder, isStructInput } from '../../utils';
 
 interface MethodInputsProps {
     value: any[];
@@ -14,8 +14,19 @@ interface MethodInputsProps {
     errors?: any[];
 }
 
+const getStructInputHelpText = (input: any) => {
+    const structTypes = (input.components || []).map((c: any) => {
+        if (isStructInput(c)) return getStructInputHelpText(c);
+        return `${c.name}: ${c.type}`;
+    });
 
+    return `Struct: [${structTypes.join(", ")}]`
+}
 
+const getInputHelpText = (input: any) => {
+    if(isStructInput(input)) return getStructInputHelpText(input);
+    return null; 
+}
 
 const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, errors = [] }) => {
     const handleChange = (index: number) => (name: string) => (e: any) => {
@@ -41,7 +52,8 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                 const handleValueChange = handleChange(index)("value");
                 const error = errors[index];
                 const {name, type, value} = item;
-                const placeholder = getPlaceholder(type); 
+                const placeholder = getPlaceholder(type, item);
+                const helpText = getInputHelpText(item); 
                 return (
                     <div key={index} className="list-element row">
                         <div className="col-md-3">
@@ -62,6 +74,7 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                                 type="text"
                                 name="listen"
                                 invalid={!!error}
+                                helpText={helpText}
                             />
                             {error && <label className="error">{error}</label>}
                         </div>

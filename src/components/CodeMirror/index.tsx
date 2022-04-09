@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-import {Controlled as ControlledCodeMirror} from 'react-codemirror2'
+// import {Controlled as ControlledCodeMirror} from 'react-codemirror2'
+import CodeMirrorOrignial, { ViewUpdate } from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+// import 'codemirror/lib/codemirror.css';
+// import 'codemirror/theme/material.css';
 
 import './CodeMirror.css';
 
-require('codemirror/mode/javascript/javascript.js');
+// require('codemirror/mode/javascript/javascript.js');
 
 interface CodeMirrorProps {
     value: string;
@@ -15,15 +17,15 @@ interface CodeMirrorProps {
     placeholder?: string;
 }
 
-const codeMirrorOptions = {
-    lineNumbers: true,
-    mode: 'javascript',
-    theme: 'material'
-}
+// const codeMirrorOptions = {
+//     lineNumbers: true,
+//     mode: 'javascript',
+//     theme: 'material'
+// }
 
 const CodeMirror: React.FC<CodeMirrorProps> = ({value, onChange, placeholder}) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
-    const onBeforeChange = (_editor: any, _data: any, value: string) => {
+    const onBeforeChange = (value: string, _viewUpdate: ViewUpdate) => {
         onChange(value);
     }
     const onFocus = () => {
@@ -36,12 +38,13 @@ const CodeMirror: React.FC<CodeMirrorProps> = ({value, onChange, placeholder}) =
     return (
         <div className="CodeMirror-wrapper">
             {showPlaceholder && <div className="CodeMirror-placeholder">{placeholder}</div>}
-            <ControlledCodeMirror
+            <CodeMirrorOrignial
                 value={value}
                 onFocus={onFocus}
                 onBlur={onBlur}
-                options={codeMirrorOptions}
-                onBeforeChange={onBeforeChange}
+                theme="dark"
+                extensions={[javascript()]}
+                onChange={onBeforeChange}
             />
         </div>
     )

@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import { Parameters } from '../interfaces';
+import { AbiInput, AbiItem, ParameterInput, Parameters } from '../interfaces';
 
 import { encode, parse } from '../utils';
 
+const abiWithStructArgs = '[{"inputs":[{"components":[{"components":[{"internalType":"string","name":"text","type":"string"},{"internalType":"uint256","name":"date","type":"uint256"}],"internalType":"struct Greeter.Message","name":"message","type":"tuple"},{"internalType":"address","name":"to","type":"address"}],"internalType":"struct Greeter.Chat","name":"_greeting","type":"tuple"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"components":[{"internalType":"string","name":"text","type":"string"},{"internalType":"uint256","name":"date","type":"uint256"}],"internalType":"struct Greeter.Message","name":"message","type":"tuple"},{"internalType":"address","name":"to","type":"address"}],"internalType":"struct Greeter.Chat","name":"_greeting","type":"tuple"}],"name":"setGreeting","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
+
 const useAbiParser = () => {
-    const [abi, setAbi] = useState<string>("");
+    const [abi, setAbi] = useState<string>(abiWithStructArgs);
     const [parseError, setParseError] = useState<string | null>(null);
-    const [abiFunctions, setAbiFunctions] = useState<{[x: string]: any}>({});
+    const [abiFunctions, setAbiFunctions] = useState<{[x: string]: AbiItem}>({});
 
     const onChange = (value: string) => {
         if(parseError) {
@@ -28,7 +30,7 @@ const useAbiParser = () => {
 
             setAbiFunctions(parsedFunctions);
             
-        } catch(e) {
+        } catch(e: any) {
             setParseError(e.message);
         }
     }
@@ -49,7 +51,7 @@ const useParameters = () => {
         inputs: [{
             type: "",
             value: ""
-        }]
+        }] as ParameterInput[],
     };
     const [parameters, setParameters] = useState<Parameters>(initialState);
     const onChange = (parameters: Parameters) => {
@@ -92,11 +94,11 @@ export const useAbiEncoder = () => {
         onReset();
     }
 
-    const onChange = (name: string) => (value: any) => {
+    const onChange = (name: string) => (value: string | Parameters) => {
         if(name === "parameters") {
-            onParametersChange(value)
+            onParametersChange(value as Parameters)
         } else if(name === "abi") {
-            onAbiChange(value);
+            onAbiChange(value as string);
         }
     }
 
@@ -107,7 +109,7 @@ export const useAbiEncoder = () => {
             onParametersChange({
                 type: constructorType,
                 funcName: "",
-                inputs: abiContstructor.inputs || []
+                inputs: (abiContstructor.inputs || []).map(i => ({...i, value: "",})),
             })
         }
     }, [abiFunctions])

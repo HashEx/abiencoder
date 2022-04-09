@@ -3,15 +3,16 @@ import React, { ChangeEvent, useMemo } from 'react';
 import Section from '../../components/Section';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { Parameters } from '../../interfaces';
+import { AbiInput, AbiItem, ParameterInput, Parameters } from '../../interfaces';
 import FormGroup from '../../components/FormGroup';
 
 import './ParametersSection.css';
 import MethodInputs from './MethodInputs';
 import Select from '../../components/Select';
+import { getStructType, isStructInput } from '../../utils';
 
 interface ParametersSectionProps {
-  abiFunctions: { [x: string]: any };
+  abiFunctions: { [x: string]: AbiItem };
   onChange: (parameters: Parameters) => void;
   value: Parameters;
   errors?: string[];
@@ -57,15 +58,30 @@ const generateBytesOptions = () => {
   return options;
 }
 
-const argumentOptions = [
-  { value: "address", label: "Address", },
-  { value: "address[]", label: "Address[]", },
-  { value: "string", label: "String", },
-  ...generateUintOptions(),
-  ...generateBytesOptions(),
-  { value: "bool", label: "Bool", },
-  { value: "bool[]", label: "Bool[]", },
-];
+const getStructOptions = (fn?: AbiItem) => {
+  const inputs = fn ? (fn.inputs || []) : [];
+  const tuples = inputs.filter((input: AbiInput) => isStructInput(input));
+  return tuples.map((tuple: AbiInput) => {
+    return {
+      value: getStructType(tuple),
+      label: tuple.internalType,
+    }
+  })
+}
+
+const getArgumentOptions = (fn: any) => {
+  const structOptions = getStructOptions(fn);
+  return [
+    { value: "address", label: "Address", },
+    { value: "address[]", label: "Address[]", },
+    { value: "string", label: "String", },
+    { value: "bool", label: "Bool", },
+    { value: "bool[]", label: "Bool[]", },
+    ...generateUintOptions(),
+    ...generateBytesOptions(),
+    ...structOptions
+  ];
+}
 
 
 const getTypesOptions = (abiFunctions: any) => {
@@ -73,15 +89,18 @@ const getTypesOptions = (abiFunctions: any) => {
   const typesOptions = [{
     value: "constructor",
     label: "constructor",
+    fn: {},
   }, {
     value: "function",
     label: "your function",
+    fn: {},
   }];
 
   types.forEach((item) => {
     typesOptions.push({
       value: item,
-      label: item
+      label: item,
+      fn: abiFunctions[item],
     });
   });
 
@@ -102,12 +121,11 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
     let funcName = "";
     const inputs: any[] = (typeDescription.inputs || []).map((input: any) => {
       return {
-        type: input.type,
-        name: input.name,
-        value: ""
+        ...input,
+        value: "",
       }
     });
-    if(["constructor", "function"].indexOf(newType) === -1) funcName = typeDescription.name;
+    if(["constructor", "function"].indexOf(newType) === -1) funcName = typeDescription.name || "";
     onChange({
       ...value,
       type: newType,
@@ -125,11 +143,11 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
           type: "",
           value: ""
         }
-      ]
+      ] as ParameterInput[]
     })
   }
 
-  const onChangeInputs = (inputs: any[]) => {
+  const onChangeInputs = (inputs: ParameterInput[]) => {
     onChange({
       ...value,
       inputs
@@ -138,6 +156,7 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
 
   const isConstructor = value.type === "constructor";
   const typesOptions = useMemo(() => getTypesOptions(abiFunctions), [abiFunctions]);
+  const argumentOptions = useMemo(() => getArgumentOptions(abiFunctions[value.type]), [abiFunctions, value]);
 
   return (
     <Section className="section-choose" title="Or enter your parameters manually">

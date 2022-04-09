@@ -1,6 +1,6 @@
 import { utils } from 'ethers';
 
-import { Parameters } from '../interfaces';
+import { AbiInput, AbiInputType, AbiItem, Parameters } from '../interfaces';
 
 export const isArrayType = (type: string) => {
     return type.includes("[]");
@@ -22,16 +22,26 @@ export const isBooleanType = (type: string) => {
     return type.toLowerCase().includes("bool");
 }
 
-export const getPlaceholder = (type: string) => {
+export const getPlaceholder = (type: string, item?: AbiInput) => {
     const isArray = isArrayType(type);
     const isUint = isUintType(type);
     const isBytes = isBytesType(type);
     const isBoolean = isBooleanType(type);
     const isAddress = isAddressType(type);
+    const isStruct = isStructInput(item);
     
     let exampleText = ""; 
+    if (isStruct) {
+        const components = item ? (item.components || []) : [];
+        const structTypesPlaceholders = components.map((c: AbiInput) => {
+            const typePlaceholder = getPlaceholder(c.type, c).replace("Example: ", "");
 
-    if(isArray) {
+            if (["address", "string"].includes(c.type)) return `"${typePlaceholder}"`;
+            
+            return typePlaceholder;
+        });
+        exampleText = `[${structTypesPlaceholders.join(', ')}]`
+    } else if(isArray) {
         if(isUint || isBytes) {
             exampleText = "[0,1,2]";
         } else if(isBoolean) {
@@ -66,7 +76,9 @@ enum VALIDATE_ERROS {
 
 type Validator = (value: string) => string | null;
 
-const validateArray = (value: string, itemValidator: Validator) => {
+type Parser = (value: string) => any;
+
+export const validateArray = (value: string, itemValidator: Validator) => {
     try {
         const parsedValue = JSON.parse(value);
         if(!Array.isArray(parsedValue)) return VALIDATE_ERROS.NOT_ARRAY;
@@ -83,23 +95,46 @@ const validateArray = (value: string, itemValidator: Validator) => {
     }
 }
 
+export const validateStruct = (value: string) => {
+    try {
+
+    } catch(e: any) {
+        return e.message;
+    }
+}
+
+const encodeSignature = (sig: string) => utils.hexDataSlice(utils.id(sig), 0, 4).slice(2);
+
 const validators: {[x: string]: Validator} = {
-    "address": (value: string) => utils.isAddress(value) ? null : VALIDATE_ERROS.NOT_ADDRESS,
-    "address[]": (value: string) => validateArray(value, validators.address),
-    "bool": (value: string) => {
+    [AbiInputType.ADDRESS]: (value: string) => utils.isAddress(value) ? null : VALIDATE_ERROS.NOT_ADDRESS,
+    "address[]": (value: string) => validateArray(value, validators.address as Validator),
+    [AbiInputType.BOOLEAN]: (value: string) => {
         if(!["true", "false"].includes(value)) {
             return VALIDATE_ERROS.NOT_BOOLEAN;
         }
         return null;
     },
-    "bool[]": (value: string) => validateArray(value, validators.bool)
+    "bool[]": (value: string) => validateArray(value, validators.bool as Validator),
+    [AbiInputType.TUPLE]: validateStruct,
 }
 
-const parsers: {[x: string]: (value: string) => any} = {
-    "bool": (value: string): boolean => value === 'true',
+const parsers: {[x: string]: Parser} = {
+    [AbiInputType.BOOLEAN]: (value: string): boolean => value === 'true',
 } 
 
 const abiCoder = new utils.AbiCoder();
+
+const getTupleArguments = (sig: string) => {
+    const argsRegExp = /([^,]+\(.+?\))|([^,]+)/g;
+    let args = sig.replace(AbiInputType.TUPLE, "").slice(1, -1).match(argsRegExp) || [];
+
+    args = args.map((arg) => {
+        if (arg.includes(AbiInputType.TUPLE)) return getTupleArguments(arg);
+        return arg;
+    });
+
+    return `(${args.join(",")})`;
+}
 
 export const encode = (parameters: Parameters) => {
     const inputsLength = parameters.inputs.length;
@@ -119,27 +154,32 @@ export const encode = (parameters: Parameters) => {
     }
     
     parameters.inputs.forEach((item, index) => {
-        const { type, value } = item;
-        types.push(item.type);
-        const validator: Validator = validators[type] || (() => "");
+        const { value, type, originalType } = item;
+        const isStruct = isStructInput(item);
         const isArray = isArrayType(type);
         const parser: any = parsers[type] || ((v: any) => v);
+        const keyType = originalType || type;
+
+        const validator: Validator = (validators[keyType] || (() => "")) as Validator;
+        types.push(type);
         let errorMessage = validator(value);
+            
         if(!errorMessage && isArray) {
             errorMessage = validateArray(value, () => "");
         }
-        if(errorMessage){
-            valid = false;
-            errors[index] = errorMessage;
-            return;
-        }else{
-            if(isArray && value){
-                inputs.push(JSON.parse(value));
-            }else{
-                inputs.push(parser(value));
-            }  
-        }
         try {
+            if(errorMessage){
+                valid = false;
+                errors[index] = errorMessage;
+                return;
+            }else{
+                if((isArray || isStruct) && value){
+                    inputs.push(JSON.parse(value));
+                }else{
+                    inputs.push(parser(value));
+                }  
+            }
+        
             abiCoder.encode(types, inputs);
             errors[index] = "";
 		} catch (err: any) {
@@ -151,8 +191,15 @@ export const encode = (parameters: Parameters) => {
     
 	if (valid) {
 		if (parameters.type !== 'constructor') {
-			const sig = parameters.funcName + "(" + types.join(",") + ")";
-			encoded += utils.hexDataSlice(utils.id(sig), 0, 4).slice(2);
+            const argumentTypes = types.map(type => {
+                if (!type.includes(AbiInputType.TUPLE)) return type;
+                // remove tuple keyword according to etherscan decoded function calls
+                return getTupleArguments(type);
+        
+                
+            })
+			const sig = parameters.funcName + "(" + argumentTypes.join(",") + ")";
+			encoded += encodeSignature(sig);
 		}
 		encoded += abiCoder.encode(types, inputs).slice(2);
 		return {
@@ -168,17 +215,44 @@ export const encode = (parameters: Parameters) => {
 }
 
 
-export const parse = (abi: any) => {
-    const functions: any[] = JSON.parse(abi);
+type ParsedFunctions = {
+    [x: string]: AbiItem
+}
 
-    let parsedFunctions: {[x: string]: any} = {};
+export const isStructInput = (input?: AbiInput) => input ? (input.type || "").includes(AbiInputType.TUPLE) : false;
+
+export const getStructType = (tuple: AbiInput): string => {
+    const tupleArgs = (tuple.components || []).map((c: AbiInput) => {
+        if(isStructInput(c)) return getStructType(c);
+        return c.type;
+    })
+    return `tuple(${tupleArgs.join(',')})`
+}
+
+export const prepareFunction = (fn: AbiItem) => {
+    if (!fn) return fn;
+    return {
+        ...fn,
+        inputs: (fn.inputs || []).map((input: any) => {
+            return {
+                ...input,
+                type: isStructInput(input) ? getStructType(input) : input.type,
+                originalType: input.type,
+            }
+        })
+    }
+}
+
+export const parse = (abi: string): ParsedFunctions => {
+    const functions: AbiItem[] = JSON.parse(abi);
+
+    let parsedFunctions: ParsedFunctions = {};
 
     functions.forEach((func) => {
         if (func.type !== 'event' && typeof func.inputs !== "undefined" && func.inputs.length) {
-            if (func.type === 'constructor') {
-                parsedFunctions[func.type] = func;
-            } else {
-                parsedFunctions[func.name] = func;
+            const key = func.type === 'constructor' ? func.type : func.name;
+            if (key) {
+                parsedFunctions[key] = prepareFunction(func);
             }
         }
     })
