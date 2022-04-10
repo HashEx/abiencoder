@@ -12,14 +12,18 @@ interface InputProps {
     name?: string;
     id?: string;
     invalid?: boolean;
+    helpText?: any;
 }
 
-const Input: React.FC<InputProps> = ({className, invalid, ...props}) => {
+const Input: React.FC<InputProps> = ({className, invalid, helpText, ...props}) => {
     const classNames = classnames("input", {
         "input--invalid": invalid,
     }, className);
     return (
-        <input className={classNames} {...props} />
+        <div>
+            <input className={classNames} {...props} />
+            {helpText && (<div className="input__help-text">{helpText}</div>)}
+        </div>
     )
 }
 

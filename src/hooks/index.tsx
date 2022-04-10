@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 
-import { Parameters } from '../interfaces';
+import { AbiInput, AbiItem, AbiTypeEnum, ParameterInput, Parameters } from '../interfaces';
 
 import { encode, parse } from '../utils';
 
 const useAbiParser = () => {
     const [abi, setAbi] = useState<string>("");
     const [parseError, setParseError] = useState<string | null>(null);
-    const [abiFunctions, setAbiFunctions] = useState<{[x: string]: any}>({});
+    const [abiFunctions, setAbiFunctions] = useState<{[x: string]: AbiItem}>({});
 
     const onChange = (value: string) => {
         if(parseError) {
             setParseError(null);
         }
         setAbi(value);
+        if(!value) {
+            setAbiFunctions({});
+        }
     }
 
     const onParse = () => {
@@ -28,7 +31,7 @@ const useAbiParser = () => {
 
             setAbiFunctions(parsedFunctions);
             
-        } catch(e) {
+        } catch(e: any) {
             setParseError(e.message);
         }
     }
@@ -44,12 +47,12 @@ const useAbiParser = () => {
 
 const useParameters = () => {
     const initialState = {
-        type: "constructor",
+        type: AbiTypeEnum.CONSTRUCTOR,
         funcName: "",
         inputs: [{
             type: "",
             value: ""
-        }]
+        }] as ParameterInput[],
     };
     const [parameters, setParameters] = useState<Parameters>(initialState);
     const onChange = (parameters: Parameters) => {
@@ -92,22 +95,21 @@ export const useAbiEncoder = () => {
         onReset();
     }
 
-    const onChange = (name: string) => (value: any) => {
+    const onChange = (name: string) => (value: string | Parameters) => {
         if(name === "parameters") {
-            onParametersChange(value)
+            onParametersChange(value as Parameters)
         } else if(name === "abi") {
-            onAbiChange(value);
+            onAbiChange(value as string);
         }
     }
 
     useEffect(() => {
-        const constructorType = "constructor";
-        const abiContstructor = abiFunctions[constructorType];
+        const abiContstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
         if(typeof abiContstructor !== "undefined") {
             onParametersChange({
-                type: constructorType,
+                type: AbiTypeEnum.CONSTRUCTOR,
                 funcName: "",
-                inputs: abiContstructor.inputs || []
+                inputs: (abiContstructor.inputs || []).map(i => ({...i, value: "",})),
             })
         }
     }, [abiFunctions])

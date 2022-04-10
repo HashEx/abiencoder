@@ -3,8 +3,6 @@ import { usePopup } from 'react-hook-popup';
 
 
 import SocialLinks from '../SocialLinks';
-import FAQPopup from '../FAQPopup';
-import InfoPopup from '../InfoPopup';
 import RequestAuditPopup from '../RequestAuditPopup';
 
 import MenuLink from './MenuLink';
@@ -19,13 +17,6 @@ enum POPUP {
 }
 
 const Menu = () => {
-    const [showWhatPopup] = usePopup(POPUP.INFO, ({handleClose}: any) => {
-        return <InfoPopup onClose={handleClose} />
-    })
-
-    const [showHowPopup] = usePopup(POPUP.FAQ, ({handleClose}: any) => {
-        return <FAQPopup onClose={handleClose} />;
-    });
 
     const [showRequeestAuditPopup] = usePopup(POPUP.REQUEST_AUDIT, ({handleClose}: any) => {
         return <RequestAuditPopup onClose={handleClose} />;
@@ -33,12 +24,10 @@ const Menu = () => {
 
     const MENU = [{
         title: "What is this?",
-        href: "#what",
-        onClick: () => showWhatPopup(),
+        href: "#what-is-this",
     }, {
         title: "How it works?",
-        href: "#how",
-        onClick: () => showHowPopup(),
+        href: "#how-it-works",
     }, {
         target: "_blank",
         title: "Request Audit",
@@ -48,7 +37,7 @@ const Menu = () => {
     }, {
         target: "_blank",
         title: "Job at HashEx",
-        href: "https://www.notion.so/HashEx-Job-Board-34f9adc036044b82983c7f09c3193cdf"
+        href: "https://hashex.org/careers"
     },];
 
     return (

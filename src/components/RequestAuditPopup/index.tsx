@@ -45,7 +45,7 @@ const useForm = () => {
             })
             setSubmitted(true);
             
-        } catch(e) {
+        } catch (e: any) {
             console.error(e)
             setError(e.message);
         }

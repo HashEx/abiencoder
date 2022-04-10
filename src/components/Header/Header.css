@@ -1,4 +1,13 @@
 .header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 100;
+	background: rgba(0,0,0,.5);
+}
+
+.header__container {
 	height: 80px;
 	display: flex;
 	align-items: center;
