@@ -121,7 +121,7 @@ ABI example:
 "type": "tuple",        // this type means you want to use Struct as argument
 ```
 
-then follow the [steps](/#encode-struct-argument-with-existing-abi) as if you have ABI to parse.
+then follow the [steps](#encode-struct-argument-with-existing-abi) as if you have ABI to parse.
 
 ## How to run
 
