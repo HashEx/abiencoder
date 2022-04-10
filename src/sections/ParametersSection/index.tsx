@@ -18,7 +18,24 @@ interface ParametersSectionProps {
   errors?: string[];
 }
 
+const generateNumerableTypeOptions = (type: string, label: string, max: number, step: number) => {
+  const options = [];
+  let i = 0;
+  while(i <= max){
+    if(i === 0){
+      options.push({value: type, label});
+      options.push({value: `${type}[]`, label: `${label}[]`});
+    }else{
+      options.push({value: `${type}${i}`, label: `${label}${i}`});
+      options.push({value: `${type}${i}[]`, label: `${label}${i}[]`});
+    }
+    i += step;
+  }
+  return options;
+}
+
 const generateUintOptions = () => {
+  return generateNumerableTypeOptions("uint", "Uint", 256, 8);
   const options = [];
   let i = 0;
   while(i <= 256){
@@ -35,15 +52,8 @@ const generateUintOptions = () => {
 }
 
 const generateBytesOptions = () => {
-  const options = [
-    // {
-    //   value: "byte",
-    //   label: "Byte"
-    // },{
-    //   value: "byte[]",
-    //   label: "Byte[]"
-    // }
-  ];
+  return generateNumerableTypeOptions("bytes", "Bytes", 32, 1);
+  const options = [];
   let i = 0;
   while(i <= 32){
     if(i === 0){
@@ -155,8 +165,10 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
   }
 
   const isConstructor = value.type === "constructor";
+  const isCustomFunction = (isConstructor && !Object.keys(abiFunctions).length) || (!isConstructor && !abiFunctions[value.funcName]);
   const typesOptions = useMemo(() => getTypesOptions(abiFunctions), [abiFunctions]);
-  const argumentOptions = useMemo(() => getArgumentOptions(abiFunctions[value.type]), [abiFunctions, value]);
+  const funcKey = value.funcName || value.type;
+  const argumentOptions = useMemo(() => getArgumentOptions(abiFunctions[funcKey]), [abiFunctions, funcKey]);
 
   return (
     <Section className="section-choose" title="Or enter your parameters manually">
@@ -185,10 +197,14 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({ abiFunctions, val
           )}
         </div>
       </div>
-      <MethodInputs value={value.inputs} onChange={onChangeInputs} options={argumentOptions} errors={errors} />
-      <div className="section-choose__buttons">
-        <Button className="add-param" onClick={onAddArgument}>Add argument</Button>
-      </div>
+      <MethodInputs value={value.inputs} onChange={onChangeInputs} options={argumentOptions} errors={errors} isCustomFunction={isCustomFunction} />
+      {
+        isCustomFunction && (
+          <div className="section-choose__buttons">
+            <Button className="add-param" onClick={onAddArgument}>Add argument</Button>
+          </div>
+        )
+      }
     </Section>
   )
 }

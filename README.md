@@ -23,6 +23,7 @@ Code itself is used in the byte format, so it’s harder to decode it correctly.
 - string
 - bool
 - bool[]
+- tuple (supports Struct from ABI)
 
 Feel free to open PR to add new types.
 
@@ -35,7 +36,7 @@ Feel free to open PR to add new types.
 3. Fill the arguments.
 4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
 
-![image](https://user-images.githubusercontent.com/6623392/126693310-7c6abdc6-b13c-49c1-83e5-db86c3f61e87.png)
+![image](./screenshots/manually-input.JPG)
 
 
 ### Using ABI autoparse 
@@ -45,6 +46,82 @@ Feel free to open PR to add new types.
 4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
 
 ![image](https://user-images.githubusercontent.com/6623392/126690261-d13d8fa0-d473-407b-96cb-4abc54367576.png)
+
+## How to encode struct arguments
+
+### Encode struct argument with existing ABI
+
+1. Enter your contract ABI into the text field and click "Parse" button.
+2. Select the function or constructor from the parsed list which has struct argument.
+3. Enter struct value according to example. Use Struct description under input as a hint.
+4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
+
+![image](./screenshots/struct-argument-example.JPG)
+
+### Encode struct argument without existing ABI
+
+0. Describe your function or constructor using ABI template.
+
+Function example:
+
+```sol
+    contract MyCustomContract {
+        struct MyCustomStruct {
+            uint256 number;
+            address to;
+        }
+        constructor(MyCustomStruct memory _myCustomStruct) {
+            // some logic
+        }
+        function myCustomFunction(MyCustomStruct memory _myCustomStruct) {
+            // some logic
+        }
+    }
+```
+
+ABI example:
+
+```js
+    [{
+        "type": "constructor",
+        "name": "",
+        "inputs": [{
+            "components": [{ 
+                "type": "uint256",
+                "name": "number"
+            },{
+                "type": "string",
+                "name": "note"
+            }],
+            "internalType": "struct MyCustomContract.MyCustomStruct",
+            "type": "tuple",
+            "name": "_myCustomStruct"
+        }]
+    },{
+        "type": "function",
+        "name": "myCustomFunction",
+        "inputs": [{
+            "components": [{ 
+                "type": "uint256",
+                "name": "number"
+            },{
+                "type": "string",
+                "name": "note"
+            }],
+            "internalType": "struct MyCustomContract.MyCustomStruct",
+            "name": "_myCustomStruct",
+            "type": "tuple"
+        }]
+    }]
+``` 
+
+
+```js
+"components": [...],    // `components` field is for Struct fields description
+"type": "tuple",        // this type means you want to use Struct as argument
+```
+
+then follow the [steps](/#encode-struct-argument-with-existing-abi) as if you have ABI to parse.
 
 ## How to run
 

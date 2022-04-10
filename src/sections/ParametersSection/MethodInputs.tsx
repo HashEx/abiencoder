@@ -9,6 +9,7 @@ import { getPlaceholder, isStructInput } from '../../utils';
 
 interface MethodInputsProps {
     value: any[];
+    isCustomFunction?: boolean;
     onChange: (inputs: any[]) => void;
     options: any[];
     errors?: any[];
@@ -28,7 +29,7 @@ const getInputHelpText = (input: any) => {
     return null; 
 }
 
-const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, errors = [] }) => {
+const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, errors = [], isCustomFunction }) => {
     const handleChange = (index: number) => (name: string) => (e: any) => {
         onChange([
             ...value.slice(0, index),
@@ -78,9 +79,11 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                             />
                             {error && <label className="error">{error}</label>}
                         </div>
-                        <div className="col-md-1">
-                            <Button title="Remove argument" className="remove-param" onClick={onRemoveArgument(index)}>&times;</Button>
-                        </div>
+                        {isCustomFunction && (
+                            <div className="col-md-1">
+                                <Button title="Remove argument" className="remove-param" onClick={onRemoveArgument(index)}>&times;</Button>
+                            </div>
+                        )}
                     </div>
                 )
             })}
