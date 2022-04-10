@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { AbiInput, AbiItem, ParameterInput, Parameters } from '../interfaces';
+import { AbiInput, AbiItem, AbiTypeEnum, ParameterInput, Parameters } from '../interfaces';
 
 import { encode, parse } from '../utils';
 
@@ -14,6 +14,9 @@ const useAbiParser = () => {
             setParseError(null);
         }
         setAbi(value);
+        if(!value) {
+            setAbiFunctions({});
+        }
     }
 
     const onParse = () => {
@@ -44,7 +47,7 @@ const useAbiParser = () => {
 
 const useParameters = () => {
     const initialState = {
-        type: "constructor",
+        type: AbiTypeEnum.CONSTRUCTOR,
         funcName: "",
         inputs: [{
             type: "",
@@ -101,11 +104,10 @@ export const useAbiEncoder = () => {
     }
 
     useEffect(() => {
-        const constructorType = "constructor";
-        const abiContstructor = abiFunctions[constructorType];
+        const abiContstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
         if(typeof abiContstructor !== "undefined") {
             onParametersChange({
-                type: constructorType,
+                type: AbiTypeEnum.CONSTRUCTOR,
                 funcName: "",
                 inputs: (abiContstructor.inputs || []).map(i => ({...i, value: "",})),
             })

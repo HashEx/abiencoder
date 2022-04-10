@@ -137,15 +137,16 @@ const getTupleArguments = (sig: string) => {
 }
 
 export const encode = (parameters: Parameters) => {
+    const pInputs = (parameters.inputs || [])
     const inputsLength = parameters.inputs.length;
     let types: string[] = [];
     let inputs: any[] = [];
     let errors: string[] = [];
     let valid = true;
     let encoded = "";
-    let emptyLines = parameters.inputs.filter((input) => !input.value).length;
+    let emptyLines = pInputs.filter((input) => !input.value).length;
     
-	if (emptyLines === inputsLength) {
+	if (emptyLines === inputsLength && inputsLength > 0) {
 		valid = false;
 		return {
             errors,
@@ -153,7 +154,7 @@ export const encode = (parameters: Parameters) => {
         }
     }
     
-    parameters.inputs.forEach((item, index) => {
+    pInputs.forEach((item, index) => {
         const { value, type, originalType } = item;
         const isStruct = isStructInput(item);
         const isArray = isArrayType(type);
@@ -190,18 +191,18 @@ export const encode = (parameters: Parameters) => {
     })
     
 	if (valid) {
-		if (parameters.type !== 'constructor') {
+		if (parameters.type !== 'constructor' && parameters.funcName) {
             const argumentTypes = types.map(type => {
                 if (!type.includes(AbiInputType.TUPLE)) return type;
                 // remove tuple keyword according to etherscan decoded function calls
                 return getTupleArguments(type);
-        
-                
             })
 			const sig = parameters.funcName + "(" + argumentTypes.join(",") + ")";
 			encoded += encodeSignature(sig);
 		}
-		encoded += abiCoder.encode(types, inputs).slice(2);
+        if(inputs.length > 0) {
+		    encoded += abiCoder.encode(types, inputs).slice(2);
+        }
 		return {
             errors,
             encoded
@@ -249,7 +250,8 @@ export const parse = (abi: string): ParsedFunctions => {
     let parsedFunctions: ParsedFunctions = {};
 
     functions.forEach((func) => {
-        if (func.type !== 'event' && typeof func.inputs !== "undefined" && func.inputs.length) {
+        const inputs = func.inputs || [];
+        if (func.type !== 'event') {
             const key = func.type === 'constructor' ? func.type : func.name;
             if (key) {
                 parsedFunctions[key] = prepareFunction(func);

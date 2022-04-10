@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTwitter, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaTelegramPlane } from "react-icons/fa";
 
 import "./SocialLinks.css";
 
@@ -12,6 +12,10 @@ const socials = [
     icon: FaGithub,
     href: "https://github.com/HashEx/abiencoder",
   },
+  {
+    icon: FaTelegramPlane,
+    href: "https://t.me/HashExOfficial"
+  }
 ];
 
 const SocialLinks = () => {
@@ -27,7 +31,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noreferrer nofollower"
           >
-            <Icon />
+            <Icon size={14} />
           </a>
         );
       })}

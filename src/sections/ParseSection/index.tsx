@@ -22,7 +22,7 @@ const ParseSection: React.FC<ParseSectionProps> = ({onChange, onClear, value, on
             <CodeMirror
               value={value}
               onChange={onChange}
-              placeholder={`Enter your ABI json  [{"inputs":[], "name":[], "type":"function"}]`}
+              placeholder={`Enter your ABI json  [{"inputs":[], "name": "myFunction", "type":"function"}]`}
             />
           </div>
           <div className="section-parse__buttons">
