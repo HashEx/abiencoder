@@ -104,12 +104,12 @@ export const useAbiEncoder = () => {
     }
 
     useEffect(() => {
-        const abiContstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
-        if(typeof abiContstructor !== "undefined") {
+        const abiConstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
+        if(typeof abiConstructor !== "undefined") {
             onParametersChange({
                 type: AbiTypeEnum.CONSTRUCTOR,
                 funcName: "",
-                inputs: (abiContstructor.inputs || []).map(i => ({...i, value: "",})),
+                inputs: (abiConstructor.inputs || []).map(i => ({...i, value: "",})),
             })
         }
     }, [abiFunctions])

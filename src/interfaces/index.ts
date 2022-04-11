@@ -15,7 +15,7 @@ export interface AbiItem {
 
 export enum AbiTypeEnum {
   "FUNCTION" = "function",
-  "CONSTRUCTOR" = "contstructor",
+  "CONSTRUCTOR" = "constructor",
 }
 
 export enum AbiInputType {
