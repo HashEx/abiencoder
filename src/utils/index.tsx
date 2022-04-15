@@ -107,14 +107,14 @@ const encodeSignature = (sig: string) => utils.hexDataSlice(utils.id(sig), 0, 4)
 
 const validators: {[x: string]: Validator} = {
     [AbiInputType.ADDRESS]: (value: string) => utils.isAddress(value) ? null : VALIDATE_ERROS.NOT_ADDRESS,
-    "address[]": (value: string) => validateArray(value, validators.address as Validator),
+    "address[]": (value: string) => validateArray(value, validators[AbiInputType.ADDRESS] as Validator),
     [AbiInputType.BOOLEAN]: (value: string) => {
         if(!["true", "false"].includes(value)) {
             return VALIDATE_ERROS.NOT_BOOLEAN;
         }
         return null;
     },
-    "bool[]": (value: string) => validateArray(value, validators.bool as Validator),
+    "bool[]": (value: string) => validateArray(value, validators[AbiInputType.BOOLEAN] as Validator),
     [AbiInputType.TUPLE]: validateStruct,
 }
 
