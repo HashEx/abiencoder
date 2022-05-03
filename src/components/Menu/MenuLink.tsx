@@ -18,7 +18,6 @@ const MenuLink: React.FC<MenuLinkProps> = ({href, target, children, highlight, o
     });
     const handleClick = (e: React.SyntheticEvent<HTMLAnchorElement>) => {
         if(onClick) {
-            e.preventDefault();
             onClick();
         }
     }

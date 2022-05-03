@@ -16,14 +16,13 @@
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
 	<div id="root"></div>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109528890-3"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GTAG_ID%"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
 
-		gtag('config', 'UA-109528890-3');
+		gtag('config', '%REACT_APP_GTAG_ID%');
 	</script>
 </body>
 </html>

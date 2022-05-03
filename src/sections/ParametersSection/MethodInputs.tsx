@@ -6,6 +6,7 @@ import FormGroup from '../../components/FormGroup';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import { getPlaceholder, isStructInput } from '../../utils';
+import { pushGtagChooseArgument, pushGtagParsesActionButton } from '../../utils/gtag';
 
 interface MethodInputsProps {
     value: any[];
@@ -31,16 +32,22 @@ const getInputHelpText = (input: any) => {
 
 const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, errors = [], isCustomFunction }) => {
     const handleChange = (index: number) => (name: string) => (e: any) => {
+        const newValue = e.target.value;
+        if (name === "type") {
+            const option = options.find(option => option.value === newValue);
+            pushGtagChooseArgument(option.label);
+        }
         onChange([
             ...value.slice(0, index),
             {
                 ...value[index],
-                [name]: e.target.value
+                [name]: newValue 
             },
             ...value.slice(index + 1)
         ])
     }
     const onRemoveArgument = (index: number) => (e: any) => {
+        pushGtagParsesActionButton("remove");
         onChange([
             ...value.slice(0, index),
             ...value.slice(index + 1)

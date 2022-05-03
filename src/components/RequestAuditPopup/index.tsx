@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import requestAuditService from '../../services/requestAuditService';
+import { pushGtagRequestAudit, pushGtagRequestAuditError } from '../../utils/gtag';
 import Button from '../Button';
 import FormGroup from '../FormGroup';
 import Input from '../Input';
@@ -44,10 +45,11 @@ const useForm = () => {
                 comment: ""
             })
             setSubmitted(true);
-            
+            pushGtagRequestAudit();
         } catch (e: any) {
             console.error(e)
             setError(e.message);
+            pushGtagRequestAuditError();
         }
         setLoading(false);
     }

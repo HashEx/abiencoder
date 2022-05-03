@@ -16,6 +16,7 @@ import "./ParametersSection.css";
 import MethodInputs from "./MethodInputs";
 import Select from "../../components/Select";
 import { getStructType, isStructInput } from "../../utils";
+import { pushGtagChooseFunction, pushGtagParsesActionButton } from "../../utils/gtag";
 
 interface ParametersSectionProps {
   abiFunctions: { [x: string]: AbiItem };
@@ -120,6 +121,7 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({
   };
   const onChangeType = (e: ChangeEvent<HTMLSelectElement>) => {
     const newType = e.target.value;
+    pushGtagChooseFunction(newType);
     const typeDescription = abiFunctions[newType] || {};
     let funcName = "";
     const inputs: any[] = (typeDescription.inputs || []).map((input: any) => {
@@ -134,6 +136,8 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({
       ) === -1
     )
       funcName = typeDescription.name || "";
+    
+    
     onChange({
       ...value,
       type: newType,
@@ -143,6 +147,7 @@ const ParametersSection: React.FC<ParametersSectionProps> = ({
   };
 
   const onAddArgument = () => {
+    pushGtagParsesActionButton("add");
     onChange({
       ...value,
       inputs: [
