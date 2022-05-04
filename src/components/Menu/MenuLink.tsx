@@ -7,7 +7,7 @@ export interface MenuLinkProps {
     href: string;
     target?: string;
     highlight?: boolean;
-    onClick?: () => void;
+    onClick?: (e: React.SyntheticEvent<HTMLAnchorElement>) => void;
 }
 
 const MenuLink: React.FC<MenuLinkProps> = ({href, target, children, highlight, onClick}) => {
@@ -18,7 +18,7 @@ const MenuLink: React.FC<MenuLinkProps> = ({href, target, children, highlight, o
     });
     const handleClick = (e: React.SyntheticEvent<HTMLAnchorElement>) => {
         if(onClick) {
-            onClick();
+            onClick(e);
         }
     }
     return (

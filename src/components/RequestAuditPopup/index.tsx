@@ -7,6 +7,12 @@ import Input from '../Input';
 
 import Popup from '../Popup';
 
+const validateEmail = (email: string = "") => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+
 interface RequestAuditPopupProps {
     onClose: () => void;
 }
@@ -67,7 +73,9 @@ const useForm = () => {
 
 const RequestAuditPopup: React.FC<RequestAuditPopupProps> = ({onClose}) => {
     const { form, loading, submitted, onChange, onSubmit, error, onResetError } = useForm();
-    const disabledSubmit = !form.email || !form.code;
+    const isEmailValid = validateEmail(form.email);
+    const disabledSubmit = !form.email || !form.code || !isEmailValid;
+    const emailValidationError = (form.email && !isEmailValid) ? "Entered email is inavlid" : undefined;
     if(error) {
         return (
             <Popup>
@@ -98,8 +106,8 @@ const RequestAuditPopup: React.FC<RequestAuditPopupProps> = ({onClose}) => {
     return (
         <Popup onClose={onClose}>
             <Popup.Title>Request Audit by HashEx</Popup.Title>
-            <FormGroup label="Email">
-                <Input onChange={onChange} value={form.value} name="email" />
+            <FormGroup label="Email" error={emailValidationError}>
+                <Input onChange={onChange} value={form.email} name="email" />
             </FormGroup>
             <FormGroup label="GitHub / Source Code URL">
                 <Input onChange={onChange} value={form.code} name="code" />

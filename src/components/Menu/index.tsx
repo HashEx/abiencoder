@@ -39,7 +39,10 @@ const Menu = () => {
       title: "Request Audit",
       href: "#request_audit",
       highlight: true,
-      onClick: () => showRequeestAuditPopup(),
+      onClick: (e: React.SyntheticEvent<HTMLAnchorElement>) => {
+          e.preventDefault();
+          showRequeestAuditPopup();
+      }
     },
     {
       target: "_blank",
@@ -51,9 +54,9 @@ const Menu = () => {
   return (
     <ul className="menu">
       {MENU.map((item, index) => {
-        const handleClick = () => {
+        const handleClick = (e: React.SyntheticEvent<HTMLAnchorElement>) => {
           pushGtagNavigationsClick(item.title);
-          if (item.onClick) item.onClick();
+          if (item.onClick) item.onClick(e);
         };
         return (
           <li className="menu__item" key={index}>
