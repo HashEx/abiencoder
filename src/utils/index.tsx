@@ -251,8 +251,10 @@ export const parse = (abi: string): ParsedFunctions => {
 
     functions.forEach((func) => {
         const inputs = func.inputs || [];
+        const inputTypesAsString = String(inputs.map(input => input.type))
+
         if (func.type !== 'event') {
-            const key = func.type === 'constructor' ? func.type : func.name;
+            const key = func.type === 'constructor' ? func.type : `${func.name}[${inputTypesAsString}]`;
             if (key) {
                 parsedFunctions[key] = prepareFunction(func);
             }
