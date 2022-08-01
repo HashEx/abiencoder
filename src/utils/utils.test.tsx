@@ -1,6 +1,6 @@
 import { Parameters } from '../interfaces';
 
-import { encode, getPlaceholder, validateArray } from './index';
+import { encode, encodeSignature, getPlaceholder, validateArray } from './index';
 
 describe("utils/validateArray", () => {
     describe("validate string array ", () => {
@@ -109,6 +109,34 @@ describe("utils/encode", () => {
         const errors = res.errors.filter(Boolean);
         expect(errors.length).toEqual(0);
         expect(res.encoded).toEqual("e1165bf700000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000040000000000000000000000000d34509d2dbcb887252cf370a9d03eb1592d1ceba0000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000006400000000000000000000000000000000000000000000000000000000000000044849484900000000000000000000000000000000000000000000000000000000");
+    });
+
+    test("encode function signature", () => {
+      const sig = 'verifyTx(((uint256,uint256),(uint256[2],uint256[2]),(uint256,uint256)),uint256[2])';
+
+      expect(encodeSignature(sig)).toEqual("43cd76fc");
+  })
+
+    test("encode function with fixed-length array of elements,", () => {
+        const parameters: Parameters = {
+            type: "",
+            funcName: "verifyTx",
+            inputs: [{
+                name: "",
+                type: "tuple(tuple(uint256,uint256),tuple(uint256[2],uint256[2]),tuple(uint256,uint256))",
+                value: JSON.stringify([["0x0e80ca8906f6387652a94c97d79c2446708417437743b76b47b567c3e0f6faee","0x06de9112ddbf310571c2544efea26794355c36c202f034f9a80f8a98ed783f16"],[["0x0949e29be2d68c7ad5e31db0e61c77e982a8b7a446eae46a6df13fffe16aebc2", "0x12aae077e227a3389ee03a120229c9f5bc6cfb58c81825295777b8782096f2ac"],["0x208b556687c1459974a72dca91a3142091e19007a065d7fb1088bb06b763db13","0x15ed708130cdf189b8f1a0d3ed489f7aee87a9ac27c15c269de5d1b25e9f1df6"]],["0x0fd7a5f6827058661ecb4470c5d53282d657db039f430b550da1627548b01ead","0x2f9c74bc52ea368da90ced109f1fbf3743cdbe7a9863e1b99dd2772687115ab8"]]),
+            },
+            {
+                name: "",
+                type: "uint256[2]",
+                value: JSON.stringify(["0x0000000000000000000000009f9afb30acafd9fe7b4362a9e541f725a3d6532f","0x00000000000000000000000c781b9fcd7dbd07e1a143b545e9274ef0ccbe7fd0"]),
+            }]
+        }
+
+        const res = encode(parameters);
+        const errors = res.errors.filter(Boolean);
+        expect(errors.length).toEqual(0);
+        expect(res.encoded).toEqual("43cd76fc0e80ca8906f6387652a94c97d79c2446708417437743b76b47b567c3e0f6faee06de9112ddbf310571c2544efea26794355c36c202f034f9a80f8a98ed783f160949e29be2d68c7ad5e31db0e61c77e982a8b7a446eae46a6df13fffe16aebc212aae077e227a3389ee03a120229c9f5bc6cfb58c81825295777b8782096f2ac208b556687c1459974a72dca91a3142091e19007a065d7fb1088bb06b763db1315ed708130cdf189b8f1a0d3ed489f7aee87a9ac27c15c269de5d1b25e9f1df60fd7a5f6827058661ecb4470c5d53282d657db039f430b550da1627548b01ead2f9c74bc52ea368da90ced109f1fbf3743cdbe7a9863e1b99dd2772687115ab80000000000000000000000009f9afb30acafd9fe7b4362a9e541f725a3d6532f00000000000000000000000c781b9fcd7dbd07e1a143b545e9274ef0ccbe7fd0");
     })
 });
 
