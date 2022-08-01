@@ -221,7 +221,7 @@ type ParsedFunctions = {
 }
 
 export const isStructInput = (input?: AbiInput) => input ? (input.type || "").includes(AbiInputType.TUPLE) : false;
-export const isFixedLengthArrayInput = (input?: AbiInput) => input ? (input.type || "").match( /\[[0-9]+\]/) : false;
+export const hasFixedLengthArrayInput = (input?: AbiInput) => input ? (input.type || "").match( /\[[0-9]+\]/) : false;
 
 export const getStructType = (tuple: AbiInput): string => {
     const tupleArgs = (tuple.components || []).map((c: AbiInput) => {

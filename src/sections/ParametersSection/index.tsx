@@ -15,7 +15,7 @@ import FormGroup from "../../components/FormGroup";
 import "./ParametersSection.css";
 import MethodInputs from "./MethodInputs";
 import Select from "../../components/Select";
-import { getStructType, isStructInput, isFixedLengthArrayInput } from "../../utils";
+import { getStructType, isStructInput, hasFixedLengthArrayInput } from "../../utils";
 import { pushGtagChooseFunction, pushGtagParsesActionButton } from "../../utils/gtag";
 
 interface ParametersSectionProps {
@@ -67,7 +67,7 @@ const getStructOptions = (fn?: AbiItem) => {
 
 const getFixedLengthArrayOptions = (fn?: AbiItem) => {
   const inputs = fn ? fn.inputs || [] : [];
-  const arrays = inputs.filter((input: AbiInput) => isFixedLengthArrayInput(input) && !isStructInput(input));
+  const arrays = inputs.filter((input: AbiInput) => hasFixedLengthArrayInput(input) && !isStructInput(input));
 
   return arrays.map((array: AbiInput) => {
     const type = array.internalType || '';
