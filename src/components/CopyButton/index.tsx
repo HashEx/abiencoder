@@ -18,6 +18,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({textToCopy, disabled, hover, onC
         setTimeout(() => setCopied(false), 3000);
         
     }, [textToCopy]);
+
     return (
         <Button hover={hover} onClick={handleCopy} disabled={disabled || copied}>
             {copied ? "Copied" : "Copy"}

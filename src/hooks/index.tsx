@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { AbiInput, AbiItem, AbiTypeEnum, ParameterInput, Parameters } from '../interfaces';
+import { AbiItem, AbiTypeEnum, ParameterInput, Parameters } from '../interfaces';
 
 import { encode, parse } from '../utils';
 import { pushGtagEvent } from '../utils/gtag';

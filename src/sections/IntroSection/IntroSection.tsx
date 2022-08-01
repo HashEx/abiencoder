@@ -17,7 +17,7 @@ const IntroSection = () => {
                 <a
                     href="https://github.com/HashEx/abiencoder#readme"
                     target="_blank"
-                    rel="nofollow noopener"
+                    rel="noreferrer"
                     className="green"
                     onClick={handleClick}
                 >

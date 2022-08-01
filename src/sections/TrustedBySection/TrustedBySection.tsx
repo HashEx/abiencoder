@@ -35,7 +35,7 @@ const TrustedBySection = () => {
                             href={company.link}
                             target="_blank"
                             className="trusted-by-item"
-                            rel="nofollow noopener"
+                            rel="noreferrer"
                             onClick={handleClick}
                         >
                             <img src={company.logo} alt={company.label} />

@@ -245,15 +245,28 @@ export const prepareFunction = (fn: AbiItem) => {
     }
 }
 
+const getFunctionArgument = (input: AbiInput): string => {
+    if (input.type.includes('tuple')) {
+        const tupleArguments = (input.components || []).map(getFunctionArgument).join(",")
+        return `(${tupleArguments})`;
+    }
+    return input.type;
+}
+
+const getFunctionKey = (func: AbiItem) => {
+    const inputs = func.inputs || [];
+    const inputTypesAsString = inputs.map(getFunctionArgument).join(",")
+    return func.type === 'constructor' ? func.type : `${func.name}(${inputTypesAsString})`;
+}
+
 export const parse = (abi: string): ParsedFunctions => {
     const functions: AbiItem[] = JSON.parse(abi);
 
     let parsedFunctions: ParsedFunctions = {};
 
     functions.forEach((func) => {
-        const inputs = func.inputs || [];
         if (func.type !== 'event') {
-            const key = func.type === 'constructor' ? func.type : func.name;
+            const key = getFunctionKey(func);
             if (key) {
                 parsedFunctions[key] = prepareFunction(func);
             }

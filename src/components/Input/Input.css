@@ -29,6 +29,11 @@
     box-shadow: 0 0.2px 0 0 red;
 }
 
+.input--disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
 .input__help-text {
     margin-top: 5px;
     font-size: 12px;

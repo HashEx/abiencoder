@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import ReactSelect from 'react-select';
+import cx from 'classnames';
 
 import './Select.css';
 
@@ -14,9 +15,10 @@ interface SelectProps {
     value: any;
     options: Option[];
     onChange: (e: any) => void;
+    disabled?: boolean;
 }
 
-const Select: React.FC<SelectProps> = ({options, className, value, onChange}) => {
+const Select: React.FC<SelectProps> = ({options, className, value, onChange, disabled}) => {
     const handleChange = (value: any) => onChange({
         target: {
             value: value.value
@@ -27,13 +29,15 @@ const Select: React.FC<SelectProps> = ({options, className, value, onChange}) =>
         return options.find((option) => option.value === value);
     }, [options, value]);
     return (
-        <div className="select-wrapper">
+        <div className={cx("select-wrapper", {"select-wrapper--disabled": disabled})}>
             <ReactSelect
                 classNamePrefix="select"
                 options={options}
                 value={selectValue}
                 onChange={handleChange}
                 isSearchable
+                isDisabled={disabled}
+                menuPortalTarget={document.querySelector("body")}
             />
         </div>
     )

@@ -70,6 +70,7 @@ const MethodInputs: React.FC<MethodInputsProps> = ({ value, onChange, options, e
                                     onChange={handleTypeChange}
                                     value={item.type}
                                     options={options}
+                                    disabled={!isCustomFunction}
                                 />
                             </FormGroup>
                         </div>

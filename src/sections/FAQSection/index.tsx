@@ -19,6 +19,7 @@ const FAQSection = () => {
         <a
           href="https://github.com/HashEx/abiencoder#readme"
           target="_blank"
+          rel="noreferrer"
           className="green"
           onClick={handleClick}
         >
