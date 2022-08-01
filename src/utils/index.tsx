@@ -3,7 +3,7 @@ import { utils } from 'ethers';
 import { AbiInput, AbiInputType, AbiItem, Parameters } from '../interfaces';
 
 export const isArrayType = (type: string) => {
-    return type.includes("[]");
+    return type.includes("[]") || type.match( /\[[0-9]+\]/);;
 }
 
 export const isUintType = (type: string) => {
@@ -103,7 +103,7 @@ export const validateStruct = (value: string) => {
     }
 }
 
-const encodeSignature = (sig: string) => utils.hexDataSlice(utils.id(sig), 0, 4).slice(2);
+export const encodeSignature = (sig: string) => utils.hexDataSlice(utils.id(sig), 0, 4).slice(2);
 
 const validators: {[x: string]: Validator} = {
     [AbiInputType.ADDRESS]: (value: string) => utils.isAddress(value) ? null : VALIDATE_ERROS.NOT_ADDRESS,

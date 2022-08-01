@@ -25,6 +25,8 @@ interface ParametersSectionProps {
   errors?: string[];
 }
 
+const MAX_FIXED_ARGUMENTS_NUMBER = 5;
+
 const generateNumerableTypeOptions = (
   type: string,
   label: string,
@@ -40,6 +42,10 @@ const generateNumerableTypeOptions = (
     } else {
       options.push({ value: `${type}${i}`, label: `${label}${i}` });
       options.push({ value: `${type}${i}[]`, label: `${label}${i}[]` });
+
+      for (let j = 1; j <= MAX_FIXED_ARGUMENTS_NUMBER; j++) {
+        options.push({ value: `${type}${i}[${j}]`, label: `${label}${i}[${j}]` });
+      }
     }
     i += step;
   }
