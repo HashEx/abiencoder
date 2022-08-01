@@ -15,7 +15,7 @@ import FormGroup from "../../components/FormGroup";
 import "./ParametersSection.css";
 import MethodInputs from "./MethodInputs";
 import Select from "../../components/Select";
-import { getStructType, isStructInput } from "../../utils";
+import { getStructType, isStructInput, hasFixedLengthArrayInput } from "../../utils";
 import { pushGtagChooseFunction, pushGtagParsesActionButton } from "../../utils/gtag";
 
 interface ParametersSectionProps {
@@ -65,8 +65,25 @@ const getStructOptions = (fn?: AbiItem) => {
   });
 };
 
+const getFixedLengthArrayOptions = (fn?: AbiItem) => {
+  const inputs = fn ? fn.inputs || [] : [];
+  const arrays = inputs.filter((input: AbiInput) => hasFixedLengthArrayInput(input) && !isStructInput(input));
+
+  return arrays.map((array: AbiInput) => {
+    const type = array.internalType || '';
+    const label = type[0].toUpperCase() + type.slice(1)
+
+    return {
+      value: array.internalType,
+      label
+    }
+  });
+};
+
 const getArgumentOptions = (fn: any) => {
   const structOptions = getStructOptions(fn);
+  const fixedLengthArrayOptions = getFixedLengthArrayOptions(fn);
+
   return [
     { value: "address", label: "Address" },
     { value: "address[]", label: "Address[]" },
@@ -76,6 +93,7 @@ const getArgumentOptions = (fn: any) => {
     ...generateUintOptions(),
     ...generateBytesOptions(),
     ...structOptions,
+    ...fixedLengthArrayOptions
   ];
 };
 
