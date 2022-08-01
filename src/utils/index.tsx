@@ -3,7 +3,7 @@ import { utils } from 'ethers';
 import { AbiInput, AbiInputType, AbiItem, Parameters } from '../interfaces';
 
 export const isArrayType = (type: string) => {
-    return type.includes("[]") || type.match( /\[[0-9]+\]/);;
+    return type.includes("[]") || type.match( /\[[0-9]+\]/);
 }
 
 export const isUintType = (type: string) => {
@@ -221,6 +221,7 @@ type ParsedFunctions = {
 }
 
 export const isStructInput = (input?: AbiInput) => input ? (input.type || "").includes(AbiInputType.TUPLE) : false;
+export const isFixedLengthArrayInput = (input?: AbiInput) => input ? (input.type || "").match( /\[[0-9]+\]/) : false;
 
 export const getStructType = (tuple: AbiInput): string => {
     const tupleArgs = (tuple.components || []).map((c: AbiInput) => {
