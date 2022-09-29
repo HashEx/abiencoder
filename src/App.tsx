@@ -8,12 +8,13 @@ import ParseSection from "./sections/ParseSection";
 import ParametersSection from "./sections/ParametersSection";
 import EncodedSection from "./sections/EncodedSection";
 import TrustedBySection from "./sections/TrustedBySection";
+import InfoSection from "./sections/InfoSection";
+import FAQSection from "./sections/FAQSection";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Section from "./components/Section";
-import InfoSection from "./sections/InfoSection";
-import FAQSection from "./sections/FAQSection";
+import Banner from "./components/Banner";
 
 function App() {
   const {
@@ -31,6 +32,9 @@ function App() {
   return (
     <Providers>
       <Header />
+      <Section>
+        <Banner />
+      </Section>
       <IntroSection />
       <ParseSection
         onChange={onChange("abi")}

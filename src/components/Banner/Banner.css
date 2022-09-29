@@ -1,0 +1,19 @@
+.banner {
+    position: relative;
+}
+
+.banner img {
+    max-width: 100%;
+}
+
+.banner__close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0.4;
+}
+
+.banner__close:hover {
+    opacity: 1;
+    cursor: pointer;
+}
