@@ -39,7 +39,7 @@ const Banner = () => {
 
     return (
         <div className='banner'>
-            <a href={banner.href} target="_blank">
+            <a href={banner.href} target="_blank" rel="nofollow noopener">
                 <img src={banner.src} />
             </a>
             <div className="banner__close" onClick={hideBanner}>
