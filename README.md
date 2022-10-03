@@ -24,6 +24,9 @@ Code itself is used in the byte format, so it’s harder to decode it correctly.
 - bool
 - bool[]
 - tuple (supports Struct from ABI)
+- function(includes an address and a function selector)
+- <type>[N](an array of elements N in a fixed-length)
+- bytes<N>(the binary types of N)
 
 Feel free to open PR to add new types.
 
