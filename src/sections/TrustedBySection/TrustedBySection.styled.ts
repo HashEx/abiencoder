@@ -23,11 +23,11 @@ export const Companies = styled.div`
   grid-template-columns: 1fr 1fr;
   flex-direction: row;
   width: 100%;
-  gap: 40px;
+  row-gap: 40px;
   align-items: center;
   justify-content: space-between;
   
-  @media ${device.TABLET} {
+  @media (min-width: 1080px) {
     display: flex;
   }
 `;
@@ -76,6 +76,10 @@ export const Title = styled.span`
 
 export const CompanyImg = styled.img`
   height: 22px;
+
+  @media ${device.MOBILE_LARGE} {
+    height: 30px;
+  }
 
   @media ${device.TABLET} {
     height: auto;
