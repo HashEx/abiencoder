@@ -25,6 +25,11 @@ export enum AbiInputType {
   "BOOLEAN" = "bool",
 }
 
+export enum TabsLabel {
+  "MANUAL_PARAMETERS" = "Manual parameters",
+  "AUTO_PARSE" = "Auto-parse",
+}
+
 export interface AbiInput {
   name: string;
   type: string;

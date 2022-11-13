@@ -15,6 +15,7 @@ interface InputProps {
   disabled?: boolean;
   helpText?: any;
   onClear?: (e: any) => void;
+  defaultValue?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,10 +23,15 @@ const Input: React.FC<InputProps> = ({
   invalid,
   helpText,
   onClear,
+  defaultValue,
   ...props
 }) => (
   <s.Wrapper>
-    <s.Input className={className} {...props}></s.Input>
+    <s.Input
+      defaultValue={defaultValue}
+      className={className}
+      {...props}
+    ></s.Input>
     {onClear && (
       <s.Clear
         title="Remove argument"

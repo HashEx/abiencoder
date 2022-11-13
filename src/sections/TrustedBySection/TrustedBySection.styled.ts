@@ -11,7 +11,7 @@ export const Wrapper = styled.section`
   box-sizing: border-box;
   margin: 0 ${MOBILE_SIDE_SPACE};
 
-  @media ${device.LAPTOP} {
+  @media ${device.LAPTOP_LARGE} {
     margin-left: ${DESKTOP_SIDE_SPACE};
     margin-right: ${DESKTOP_SIDE_SPACE};
   }
@@ -19,12 +19,17 @@ export const Wrapper = styled.section`
 
 export const Companies = styled.div`
   flex-wrap: wrap;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   flex-direction: row;
   width: 100%;
   gap: 40px;
   align-items: center;
   justify-content: space-between;
+  
+  @media ${device.TABLET} {
+    display: flex;
+  }
 `;
 
 export const Content = styled.div`

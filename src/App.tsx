@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import "./styles/fonts.css";
 
-import { useAbiEncoder } from "./hooks";
 import EncodedSection from "./sections/EncodedSection";
 import TrustedBySection from "./sections/TrustedBySection";
 import InfoSection from "./sections/InfoSection";
@@ -59,17 +58,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 function App() {
-  const {
-    abi,
-    encoded,
-    onChange,
-    onParse,
-    onClear,
-    parseError,
-    parameters,
-    abiFunctions,
-    encodeErrors,
-  } = useAbiEncoder();
+  const [encdodedData, setEncodedData] = useState<string>("");
 
   return (
     <>
@@ -82,23 +71,11 @@ function App() {
               "Free ABI encoder online service that allows you to encode your Solidity contract’s functions and constructor arguments.",
           }}
         />
-        <div>
-          <SettingsSection
-            onParametersChange={onChange("parameters")}
-            onAbiChange={onChange("abi")}
-            value={parameters}
-            abiFunctions={abiFunctions}
-            errors={encodeErrors}
-            abi={abi}
-            onParse={onParse}
-            onClear={onClear}
-            parseError={parseError}
-          />
-          <EncodedSection value={encoded} />
-          <DescriptionSection common={common} />
-          <TrustedBySection />
-          <InfoSection />
-        </div>
+        <SettingsSection setEncodedData={setEncodedData} />
+        <EncodedSection value={encdodedData} />
+        <DescriptionSection common={common} />
+        <TrustedBySection />
+        <InfoSection />
 
         <OtherServices
           common={common}

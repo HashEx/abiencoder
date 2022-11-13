@@ -31,6 +31,7 @@ const Select: FC<SelectProps> = ({
   value,
   onChange,
   placeholder = "Select...",
+  disabled,
 }) => {
   const handleChange = (value: any) =>
     onChange({
@@ -45,8 +46,8 @@ const Select: FC<SelectProps> = ({
 
   return (
     <s.ReactSelectFilter
+      isDisabled={disabled}
       value={selectValue}
-      defaultValue={options[0]}
       classNamePrefix="Select"
       options={options}
       placeholder={placeholder}

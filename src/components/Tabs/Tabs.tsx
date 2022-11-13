@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import Tab from "./Tab";
@@ -5,21 +6,25 @@ import * as s from "./Tabs.styled";
 
 interface TabsProps {
   setShowModal: (v: boolean) => void;
+  onTabClick: (tab: string) => void;
   children: any;
 }
 
-const Tabs: React.FC<TabsProps> = ({ children, setShowModal }) => {
+const Tabs: React.FC<TabsProps> = ({ children, setShowModal, onTabClick }) => {
   const [width] = useWindowSize();
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   const onClickTabItem = (tab: string) => {
     if (width <= 320) setShowModal(true);
-    else setActiveTab(tab);
+    else {
+      onTabClick(tab);
+      setActiveTab(tab);
+    }
   };
 
   return (
     <s.TabsWrapper>
       <s.Tabs>
-        {children.map((child: { props: { label: any } }) => {
+        {React.Children.map(children, (child: any) => {
           const { label } = child.props;
 
           return (

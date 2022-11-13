@@ -19,10 +19,6 @@ export const Wrapper = styled.div`
     border: 1px solid ${colors.GREY};
     background-color: ${colors.LIGHT_GREY} !important;
     color: ${colors.BLACK};
-
-    @media ${device.TABLET} {
-      padding: 20px 10px 20px 40px;
-    }
   }
 
   .cm-focused {
