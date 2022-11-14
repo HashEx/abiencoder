@@ -14,21 +14,27 @@ export const typesOptions = [
   },
 ];
 
-export const getFunctionOptions = (abiFunctions?: any) => {
-  const res: any[] = [];
+export const getFunctionOptions = (abiFunctions: any) => {
   const types = Object.keys(abiFunctions).filter(
     (item) => item !== AbiTypeEnum.CONSTRUCTOR
   );
+  const typesOptions = [
+    {
+      value: AbiTypeEnum.CONSTRUCTOR as string,
+      label: "constructor",
+      fn: {},
+    },
+  ];
 
   types.forEach((item) => {
-    res.push({
+    typesOptions.push({
       value: item,
       label: item,
       fn: abiFunctions[item],
     });
   });
 
-  return res;
+  return typesOptions;
 };
 
 export const getStructOptions = (fn?: AbiItem) => {

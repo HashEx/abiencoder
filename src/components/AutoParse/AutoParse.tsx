@@ -127,7 +127,7 @@ const AutoParse: FC<AutoParseProps> = ({
               <Button onClick={handleParseClick} type="button" text="Parse" />
             </s.ParseButtons>
           </s.ParseWrapper>
-          {functionOptions.length > 0 && (
+          {functionOptions.length > 1 && (
             <s.Column>
               <s.Row>
                 <FormGroup label="Function">
