@@ -26,7 +26,7 @@ export const Companies = styled.div`
   row-gap: 40px;
   align-items: center;
   justify-content: space-between;
-  
+
   @media (min-width: 1080px) {
     display: flex;
   }

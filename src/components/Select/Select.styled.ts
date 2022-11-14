@@ -36,6 +36,10 @@ export const ReactSelectFilter = styled(ReactSelect)`
     box-shadow: none;
   }
 
+  .Select__control--is-disabled {
+    cursor: not-allowed;
+  }
+
   .Select__menu {
     background: ${colors.LIGHT_GREY};
     color: ${colors.GREY};

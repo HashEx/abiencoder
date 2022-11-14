@@ -15,6 +15,14 @@
 }
 
 @font-face {
+  font-family: "PT Mono";
+  src: url("../fonts/PT-Mono/PTMono-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Futura";
   src: url("../fonts/Futura/Futura-Light.ttf");
   font-weight: 200;

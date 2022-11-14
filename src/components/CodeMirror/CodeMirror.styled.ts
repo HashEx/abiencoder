@@ -7,9 +7,13 @@ export const Wrapper = styled.div`
   color: #fff;
   text-align: start;
   box-shadow: none;
-  font-family: "PT Mono";
 
   .cm-editor {
+    font-family: "PT Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
     box-sizing: border-box;
     padding: 20px 10px 20px 10px;
     border-radius: 5px;
@@ -41,14 +45,27 @@ export const Wrapper = styled.div`
     color: #fff !important;
   }
 
+  .cm-lineNumbers,
+  .cm-content {
+    font-family: "PT Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+  }
+
   .cm span[role="presentation"] {
     color: #c2f051;
+  }
+
+  .cm-gutterElement {
+    color: ${colors.DARK_GREY};
   }
 
   .cm-line {
     color: #8b8b8b;
 
-    > span {
+    > span.ͼ13 {
       color: ${colors.BLACK};
     }
   }
@@ -70,7 +87,11 @@ export const Placeholder = styled.div`
   color: #fff;
   opacity: 0.5;
   z-index: 10;
-  font-family: monospace;
+  font-family: "PT Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 130%;
   color: ${colors.BLACK};
 
   @media ${device.TABLET} {

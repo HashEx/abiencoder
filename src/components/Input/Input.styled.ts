@@ -25,6 +25,11 @@ export const Input = styled.input`
   @media ${device.TABLET} {
     font-size: 14px;
   }
+
+  &:disabled {
+    background: transparent;
+    cursor: not-allowed;
+  }
 `;
 
 export const Wrapper = styled.div`

@@ -72,6 +72,7 @@ export const CopyButton = styled(Button)`
 `;
 
 export const Textarea = styled.textarea`
+  font-family: "PT Mono";
   padding: 10px 15px;
   border: 1px solid ${colors.GREY};
   background: ${colors.LIGHT_GREY};

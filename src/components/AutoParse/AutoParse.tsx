@@ -44,6 +44,11 @@ const AutoParse: FC<AutoParseProps> = ({
   value,
   errors,
 }) => {
+  const isConstructorFunc = useMemo(
+    () => value.type === AbiTypeEnum.CONSTRUCTOR,
+    [value]
+  );
+
   const functionOptions = useMemo(
     () => getFunctionOptions(abiFunctions),
     [abiFunctions]
@@ -137,14 +142,16 @@ const AutoParse: FC<AutoParseProps> = ({
                     options={functionOptions}
                   />
                 </FormGroup>
-                <Input
-                  className="method-input__value"
-                  onChange={onChangeFuncName}
-                  value={value.funcName}
-                  type="text"
-                  name="listen"
-                  disabled
-                />
+                {!isConstructorFunc && (
+                  <Input
+                    className="method-input__value"
+                    onChange={onChangeFuncName}
+                    value={value.funcName}
+                    type="text"
+                    name="listen"
+                    disabled
+                  />
+                )}
               </s.Row>
               <MethodInputs
                 value={value.inputs}
