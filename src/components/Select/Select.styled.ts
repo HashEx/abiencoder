@@ -4,8 +4,6 @@ import styled from "styled-components";
 
 export const ReactSelectFilter = styled(ReactSelect)`
   width: 227px;
-
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Button from "../Button";
 
 export const TabTitle = styled.h3`
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

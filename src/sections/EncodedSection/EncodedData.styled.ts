@@ -50,7 +50,6 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.span`
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

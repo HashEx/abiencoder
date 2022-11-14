@@ -128,7 +128,6 @@ export const FirstRow = styled.div`
 
 export const Text = styled.p`
   text-align: left;
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -144,7 +143,6 @@ export const Text = styled.p`
 
 export const ContactText = styled.p`
   text-align: left;
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

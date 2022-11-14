@@ -62,7 +62,6 @@ export const Row = styled.div`
 `;
 
 export const FirstText = styled.p`
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -80,7 +79,6 @@ export const FirstText = styled.p`
 `;
 
 export const SecondText = styled.p`
-  font-family: "Avenir Next";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
