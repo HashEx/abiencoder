@@ -1,4 +1,5 @@
 import { getStructType, hasFixedLengthArrayInput, isStructInput } from ".";
+import { banners } from "../constants/banners";
 import { AbiInput, AbiItem, AbiTypeEnum } from "../interfaces";
 
 export const typesOptions = [
@@ -120,4 +121,15 @@ export const checkIfFunctionIsCustom = (value: any, abiFunctions: any) => {
   const isCustomFunction =
     !isConstructor && !abiFunctions[funcName] && !abiFunctions[type];
   return isCustomConstructor || isCustomFunction;
+};
+
+export const getRandomInt = (min: number, max: number) => {
+  const ceiledMin = Math.ceil(min);
+  const flooredMax = Math.floor(max);
+  return Math.floor(Math.random() * (flooredMax - ceiledMin + 1) + ceiledMin); // The maximum is exclusive and the minimum is inclusive
+};
+
+export const getBanner = () => {
+  const index = getRandomInt(0, 2);
+  return banners[index];
 };

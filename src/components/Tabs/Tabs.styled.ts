@@ -84,11 +84,15 @@ export const Content = styled.div`
   background-color: ${colors.WHITE};
   display: flex;
   border-radius: 0 0 20px 20px;
-  padding: 20px;
-  padding: 10px 40px 45px;
+  padding: 0 40px 45px;
   box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.25);
   @media ${device.TABLET} {
     border-radius: 0 20px 20px 20px;
-    padding: 60px 70px 45px;
+    padding: 45px 40px 45px 60px;
+  }
+
+  @media ${device.TABLET_LARGE} {
+    border-radius: 0 20px 20px 20px;
+    padding: 60px 50px 45px 70px;
   }
 `;

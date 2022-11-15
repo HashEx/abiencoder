@@ -3,21 +3,24 @@ import device from "../../helpers/device";
 
 import styled from "styled-components";
 import Button from "../Button";
+import Banner from "../Banner";
 
 export const TabTitle = styled.h3`
   font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
   line-height: 130%;
   color: ${colors.LIGHT_BLACK};
   margin-bottom: 25px;
   text-align: center;
+  display: none;
 
   @media ${device.TABLET} {
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
   }
 
-  @media ${device.MOBILE_LARGE} {
+  @media ${device.LAPTOP} {
+    font-weight: 500;
     font-size: 24px;
   }
 `;
@@ -62,27 +65,39 @@ export const Column = styled.div`
   }
 `;
 
-export const Banner = styled.a`
-  flex-direction: column;
-  align-items: flex-start;
+export const TopBanner = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  @media ${device.TABLET} {
+    display: none;
+  }
+`;
+
+export const BannerColumn = styled(Banner)`
+  width: 100%;
   display: none;
 
-  @media ${device.LAPTOP_LARGE} {
+  @media ${device.TABLET} {
     display: flex;
   }
 `;
 
-export const BannerImg = styled.img``;
-
 export const Row = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 30px;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 
-  @media ${device.TABLET} {
+  @media ${device.MOBILE_LARGE} {
+    align-items: flex-start;
+  }
+
+  @media ${device.LAPTOP_LARGE} {
     flex-direction: row;
     gap: 40px;
     align-items: flex-end;

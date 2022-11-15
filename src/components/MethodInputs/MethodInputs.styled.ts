@@ -6,12 +6,16 @@ import styled from "styled-components";
 export const ListElement = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 30px;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 
-  @media ${device.TABLET} {
+  @media ${device.MOBILE_LARGE} {
+    align-items: flex-start;
+  }
+
+  @media ${device.LAPTOP_LARGE} {
     gap: 40px;
     flex-direction: row;
     align-items: flex-end;
@@ -33,9 +37,6 @@ export const Error = styled.label`
   text-align: start;
   align-items: center;
   color: ${colors.REQUIRED_ERROR};
-  @media ${device.TABLET} {
-    -webkit-line-clamp: 2;
-  }
 `;
 
 export const Input = styled.div`

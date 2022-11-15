@@ -11,6 +11,7 @@ import { encode, parse } from "../utils";
 import { pushGtagEvent } from "../utils/gtag";
 
 const useAbiParser = () => {
+  const [isParsed, setIsParsed] = useState(false);
   const [abi, setAbi] = useState<string>("");
   const [parseError, setParseError] = useState<string | null>(null);
   const [abiFunctions, setAbiFunctions] = useState<{ [x: string]: AbiItem }>(
@@ -31,7 +32,8 @@ const useAbiParser = () => {
     try {
       if (parseError) {
         setParseError(null);
-      }
+        setIsParsed(false);
+      } else setIsParsed(true);
 
       const parsedFunctions = parse(abi);
 
@@ -43,6 +45,7 @@ const useAbiParser = () => {
         event_category: "parser",
       });
       setParseError(e.message);
+      setIsParsed(false);
     }
   };
 
@@ -52,6 +55,8 @@ const useAbiParser = () => {
     onParse,
     parseError,
     abiFunctions,
+    isParsed,
+    setIsParsed,
   };
 };
 
@@ -89,6 +94,8 @@ export const useAbiEncoder = () => {
     parseError,
     onParse,
     abiFunctions,
+    isParsed,
+    setIsParsed,
   } = useAbiParser();
 
   const { parameters, onChange: onParametersChange, onReset } = useParameters();
@@ -96,6 +103,7 @@ export const useAbiEncoder = () => {
   const onClear = () => {
     onAbiChange("");
     onReset();
+    setIsParsed(false);
   };
 
   const handleParseClick = () => {
@@ -138,5 +146,6 @@ export const useAbiEncoder = () => {
     onClear,
     abiFunctions,
     parameters,
+    isParsed,
   };
 };

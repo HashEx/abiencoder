@@ -83,7 +83,7 @@ export const Wrapper = styled.div`
 export const Placeholder = styled.div`
   position: absolute;
   top: 26px;
-  left: 35px;
+  left: 45px;
   color: #fff;
   opacity: 0.5;
   z-index: 10;
@@ -93,8 +93,4 @@ export const Placeholder = styled.div`
   font-size: 14px;
   line-height: 130%;
   color: ${colors.BLACK};
-
-  @media ${device.TABLET} {
-    left: 75px;
-  }
 `;

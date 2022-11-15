@@ -8,10 +8,15 @@ interface TabsProps {
   setShowModal: (v: boolean) => void;
   onTabClick: (tab: string) => void;
   children: any;
+  width: number;
 }
 
-const Tabs: React.FC<TabsProps> = ({ children, setShowModal, onTabClick }) => {
-  const [width] = useWindowSize();
+const Tabs: React.FC<TabsProps> = ({
+  children,
+  setShowModal,
+  onTabClick,
+  width,
+}) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   const onClickTabItem = (tab: string) => {
     if (width <= 320) setShowModal(true);

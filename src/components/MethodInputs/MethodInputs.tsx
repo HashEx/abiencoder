@@ -58,6 +58,7 @@ const MethodInputs: React.FC<MethodInputsProps> = ({
     pushGtagParsesActionButton("remove");
     onChange([...value.slice(0, index), ...value.slice(index + 1)]);
   };
+
   return (
     <>
       {value.map((item, index) => {
@@ -69,16 +70,14 @@ const MethodInputs: React.FC<MethodInputsProps> = ({
         const helpText = getInputHelpText(item);
         return (
           <s.ListElement key={index}>
-            <div className="col-md-3">
-              <FormGroup label={name || "Argument"}>
-                <Select
-                  onChange={handleTypeChange}
-                  value={item.type}
-                  options={options}
-                  disabled={!isCustomFunction}
-                />
-              </FormGroup>
-            </div>
+            <FormGroup label={name || "Argument"}>
+              <Select
+                onChange={handleTypeChange}
+                value={item.type}
+                options={options}
+                disabled={!isCustomFunction}
+              />
+            </FormGroup>
             <s.Input>
               <Input
                 value={value}

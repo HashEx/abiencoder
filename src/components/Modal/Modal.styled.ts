@@ -26,5 +26,9 @@ export const ModalClose = styled.div`
 `;
 
 export const Modal = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 102;
+  margin: 0 10px;
 `;

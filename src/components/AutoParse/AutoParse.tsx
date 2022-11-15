@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useMemo } from "react";
+import React, { ChangeEvent, FC, useMemo, useState } from "react";
 import FormGroup from "../FormGroup";
 import Input from "../Input";
 import MethodInputs from "../MethodInputs";
@@ -31,6 +31,7 @@ interface AutoParseProps {
   value: Parameters;
   errors?: string[];
   label: string;
+  isParsed: boolean;
 }
 
 const AutoParse: FC<AutoParseProps> = ({
@@ -43,6 +44,7 @@ const AutoParse: FC<AutoParseProps> = ({
   parseError,
   value,
   errors,
+  isParsed,
 }) => {
   const isConstructorFunc = useMemo(
     () => value.type === AbiTypeEnum.CONSTRUCTOR,
@@ -132,7 +134,7 @@ const AutoParse: FC<AutoParseProps> = ({
               <Button onClick={handleParseClick} type="button" text="Parse" />
             </s.ParseButtons>
           </s.ParseWrapper>
-          {functionOptions.length > 1 && (
+          {isParsed && (
             <s.Column>
               <s.Row>
                 <FormGroup label="Function">

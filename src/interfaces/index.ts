@@ -13,6 +13,13 @@ export interface AbiItem {
   gas?: number;
 }
 
+export interface IBanner {
+  alt: string;
+  src: string;
+  link: string;
+  srcMob: string;
+}
+
 export enum AbiTypeEnum {
   "FUNCTION" = "function",
   "CONSTRUCTOR" = "constructor",

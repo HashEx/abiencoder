@@ -53,18 +53,20 @@ export const Row = styled.div`
 
 export const TabTitle = styled.h3`
   font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
   line-height: 130%;
   color: ${colors.LIGHT_BLACK};
   margin-bottom: 25px;
   text-align: center;
+  display: none;
 
   @media ${device.TABLET} {
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 16px;
+    display: inline-block;
   }
 
-  @media ${device.MOBILE_LARGE} {
+  @media ${device.LAPTOP} {
+    font-weight: 500;
     font-size: 24px;
   }
 `;

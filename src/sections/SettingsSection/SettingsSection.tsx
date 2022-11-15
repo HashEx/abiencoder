@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Tabs from "../../components/Tabs";
 
@@ -9,6 +9,9 @@ import { useAbiEncoder } from "../../hooks";
 import ManualParameters from "../../components/ManualParameters";
 import AutoParse from "../../components/AutoParse";
 import { TabsLabel } from "../../interfaces";
+import { getBanner } from "../../utils/helpers";
+import useWindowSize from "../../hooks/useWindowSize";
+import Banner from "../../components/Banner";
 
 interface AbiSettingsProps {
   setEncodedData: (data: string) => void;
@@ -30,9 +33,12 @@ const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData }) => {
     encodeErrors: autoParseEncodeErrors,
     parseError,
     encoded: autoParseEncoded,
+    isParsed,
   } = useAbiEncoder();
 
   const [showModal, setShowModal] = useState(false);
+
+  const [width] = useWindowSize();
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -50,15 +56,28 @@ const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData }) => {
     setActiveTab(tab);
   };
 
+  const banner = useMemo(() => getBanner(), []);
+  const modalBanner = useMemo(() => getBanner(), []);
+
+  const [hide, setHide] = useState(false);
+
   return (
     <s.AbiSettings>
       <s.Content>
-        <Tabs setShowModal={setShowModal} onTabClick={handleTabClick}>
+        <Tabs
+          setShowModal={setShowModal}
+          onTabClick={handleTabClick}
+          width={width}
+        >
           <ManualParameters
             onParametersChange={onChange("parameters")}
             value={parameters}
             errors={encodeErrors}
             label={TabsLabel.MANUAL_PARAMETERS}
+            banner={banner}
+            width={width}
+            hide={hide}
+            setHide={setHide}
           />
 
           <AutoParse
@@ -72,12 +91,14 @@ const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData }) => {
             value={autoParseParameters}
             errors={autoParseEncodeErrors}
             label={TabsLabel.AUTO_PARSE}
+            isParsed={isParsed}
           />
         </Tabs>
         <Modal show={showModal} onClose={handleModalClose}>
           <s.ModalWrapper>
             <img src={laptop} alt="desktop" />
             <s.ModalText>Please use the desktop version</s.ModalText>
+            <Banner banner={modalBanner} hide={hide} setHide={setHide} />
             <s.OkButton text={"Ok"} onClick={handleModalClose} type="button" />
           </s.ModalWrapper>
         </Modal>

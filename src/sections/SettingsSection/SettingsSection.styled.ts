@@ -215,12 +215,11 @@ export const ClearButton = styled(Button)`
 export const ModalWrapper = styled.div`
   box-sizing: border-box;
   border-radius: 20px;
-  height: 236px;
   padding: 40px 20px;
   background: ${colors.WHITE};
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   flex-direction: column;
 `;
 
