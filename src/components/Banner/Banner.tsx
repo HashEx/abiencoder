@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IBanner } from "../../interfaces";
 
 import * as s from "./Banner.styled";

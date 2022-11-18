@@ -128,6 +128,7 @@ export const useAbiEncoder = () => {
         inputs: (abiConstructor.inputs || []).map((i) => ({ ...i, value: "" })),
       });
     }
+  // eslint-disable-next-line
   }, [abiFunctions]);
 
   useEffect(() => {

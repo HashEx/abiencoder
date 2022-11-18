@@ -1,5 +1,4 @@
 import colors from "../../helpers/colors";
-import device from "../../helpers/device";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`

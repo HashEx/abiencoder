@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import useWindowSize from "../../hooks/useWindowSize";
 import Tab from "./Tab";
 import * as s from "./Tabs.styled";
 
