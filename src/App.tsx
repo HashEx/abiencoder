@@ -1,85 +1,101 @@
-import React from "react";
+import React, { useState } from "react";
+import { createGlobalStyle } from "styled-components";
+import "./styles/fonts.css";
 
-import Providers from "./providers";
-import { useAbiEncoder } from "./hooks";
-
-import IntroSection from "./sections/IntroSection";
-import ParseSection from "./sections/ParseSection";
-import ParametersSection from "./sections/ParametersSection";
 import EncodedSection from "./sections/EncodedSection";
 import TrustedBySection from "./sections/TrustedBySection";
 import InfoSection from "./sections/InfoSection";
-import FAQSection from "./sections/FAQSection";
 
-import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Section from "./components/Section";
-import Banner from "./components/Banner";
+import Header from "./components/Header";
+import { common } from "./constants/common";
+import Layout from "./components/Layout";
+import Hero from "./components/Hero";
+import SettingsSection from "./sections/SettingsSection";
+import DescriptionSection from "./sections/DescriptionSection";
+import OtherServices from "./sections/OtherServices";
+import Contacts from "./sections/Contacts";
+import { otherServices } from "./constants/otherServices";
+
+const GlobalStyles = createGlobalStyle`
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Avenir', sans-serif;
+    }
+
+    #__next {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+
+    main {
+        flex-grow: 1;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        margin: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+`;
 
 function App() {
-  const {
-    abi,
-    encoded,
-    onChange,
-    onParse,
-    onClear,
-    parseError,
-    parameters,
-    abiFunctions,
-    encodeErrors,
-  } = useAbiEncoder();
+  const [encdodedData, setEncodedData] = useState<string>("");
 
   return (
-    <Providers>
-      <Header />
-      <Section>
-        <Banner />
-      </Section>
-      <IntroSection />
-      <ParseSection
-        onChange={onChange("abi")}
-        value={abi}
-        onParse={onParse}
-        onClear={onClear}
-        parseError={parseError}
-      />
-      <ParametersSection
-        onChange={onChange("parameters")}
-        value={parameters}
-        abiFunctions={abiFunctions}
-        errors={encodeErrors}
-      />
-      <EncodedSection value={encoded} />
-      <Section>
-        <p>
-          HashEx offers a free ABI decoder online service that allows you to
-          encode your contract’s arguments.
-        </p>
-        <p>
-          ABI itself is the description of the code interface. It’s a way for
-          the contracts to interact within an ecosystem as well as
-          contract-to-contract.
-        </p>
-        <p>
-          Smart contract ABI parsing is required for verifying the contract on
-          Etherscan or making a transaction to call a method. For most actions
-          regarding this code, you would require a special tool, and the
-          arguments have to be encoded in a specific way. HashEx tool does it
-          automatically, free, and doesn’t involve downloading any extra
-          applications.
-        </p>
-        <p>
-          Code itself is used in the byte format, so it’s harder to decode it
-          correctly. For easy interactions with said code, HashEx has created
-          its ABI decoder. An additional tool allows you to manually enter the
-          values for the parameters.
-        </p>
-      </Section>
-      <TrustedBySection />
-      <InfoSection />
-      <FAQSection />
-      <Footer />
-    </Providers>
+    <>
+      <Header common={common} />
+      <Layout>
+        <Hero
+          hero={{
+            title: "Online ABI Encoder",
+            summary:
+              "Free ABI encoder online service that allows you to encode your Solidity contract’s functions and constructor arguments.",
+          }}
+        />
+        <SettingsSection setEncodedData={setEncodedData} />
+        <EncodedSection value={encdodedData} />
+        <DescriptionSection common={common} />
+        <TrustedBySection />
+        <InfoSection />
+
+        <OtherServices
+          common={common}
+          title="Grow in the blockchain with us!"
+          buttonText="All services"
+          items={otherServices}
+          ourProductsLink={common?.productsHref}
+        />
+
+        <Contacts
+          contacts={common?.contacts}
+          telegramLink={common?.telegramChatLink}
+          emailLink={common?.socialEmailLink}
+          theme="light"
+        />
+      </Layout>
+
+      <Footer common={common} />
+      <GlobalStyles />
+    </>
   );
 }
 

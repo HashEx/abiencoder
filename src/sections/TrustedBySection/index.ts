@@ -1,1 +1,1 @@
-export { default } from './TrustedBySection';
+export { default } from "./TrustedBySection";

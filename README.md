@@ -36,7 +36,7 @@ Feel free to open PR to add new types.
 3. Fill the arguments.
 4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
 
-![image](./screenshots/manually-input.JPG)
+![image](./screenshots/manually-input.png)
 
 
 ### Using ABI autoparse 
@@ -45,7 +45,7 @@ Feel free to open PR to add new types.
 3. Fill the arguments.
 4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
 
-![image](https://user-images.githubusercontent.com/6623392/126690261-d13d8fa0-d473-407b-96cb-4abc54367576.png)
+![image](./screenshots/auto-parse.png)
 
 ## How to encode struct arguments
 
@@ -56,7 +56,7 @@ Feel free to open PR to add new types.
 3. Enter struct value according to example. Use Struct description under input as a hint.
 4. Encoded data will appear in the text area under the function. Click "Copy" button and paste it where ever you want.
 
-![image](./screenshots/struct-argument-example.JPG)
+![image](./screenshots/struct-argument-example.png)
 
 ### Encode struct argument without existing ABI
 

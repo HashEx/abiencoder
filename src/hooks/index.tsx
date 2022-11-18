@@ -1,138 +1,152 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { AbiItem, AbiTypeEnum, ParameterInput, Parameters } from '../interfaces';
+import {
+  AbiItem,
+  AbiTypeEnum,
+  ParameterInput,
+  Parameters,
+} from "../interfaces";
 
-import { encode, parse } from '../utils';
-import { pushGtagEvent } from '../utils/gtag';
+import { encode, parse } from "../utils";
+import { pushGtagEvent } from "../utils/gtag";
 
 const useAbiParser = () => {
-    const [abi, setAbi] = useState<string>("");
-    const [parseError, setParseError] = useState<string | null>(null);
-    const [abiFunctions, setAbiFunctions] = useState<{[x: string]: AbiItem}>({});
+  const [isParsed, setIsParsed] = useState(false);
+  const [abi, setAbi] = useState<string>("");
+  const [parseError, setParseError] = useState<string | null>(null);
+  const [abiFunctions, setAbiFunctions] = useState<{ [x: string]: AbiItem }>(
+    {}
+  );
 
-    const onChange = (value: string) => {
-        if(parseError) {
-            setParseError(null);
-        }
-        setAbi(value);
-        if(!value) {
-            setAbiFunctions({});
-        }
+  const onChange = (value: string) => {
+    if (parseError) {
+      setParseError(null);
     }
-
-    const onParse = () => {
-        try {
-            if(parseError) {
-                setParseError(null);
-            }
-            
-            const parsedFunctions = parse(abi);
-
-            setAbi(JSON.stringify(JSON.parse(abi), null, 2));
-
-            setAbiFunctions(parsedFunctions);
-            
-        } catch(e: any) {
-            pushGtagEvent('error', {
-                event_category: 'parser',
-            });
-            setParseError(e.message);
-        }
+    setAbi(value);
+    if (!value) {
+      setAbiFunctions({});
     }
+  };
 
-    return {
-        abi,
-        onChange,
-        onParse,
-        parseError,
-        abiFunctions,
+  const onParse = () => {
+    try {
+      if (parseError) {
+        setParseError(null);
+        setIsParsed(false);
+      } else setIsParsed(true);
+
+      const parsedFunctions = parse(abi);
+
+      setAbi(JSON.stringify(JSON.parse(abi), null, 2));
+
+      setAbiFunctions(parsedFunctions);
+    } catch (e: any) {
+      pushGtagEvent("error", {
+        event_category: "parser",
+      });
+      setParseError(e.message);
+      setIsParsed(false);
     }
-}
+  };
+
+  return {
+    abi,
+    onChange,
+    onParse,
+    parseError,
+    abiFunctions,
+    isParsed,
+    setIsParsed,
+  };
+};
 
 const useParameters = () => {
-    const initialState = {
-        type: AbiTypeEnum.CONSTRUCTOR,
-        funcName: "",
-        inputs: [{
-            type: "",
-            value: ""
-        }] as ParameterInput[],
-    };
-    const [parameters, setParameters] = useState<Parameters>(initialState);
-    const onChange = (parameters: Parameters) => {
-        setParameters(parameters)
-    }
-    const onReset = () => {
-        setParameters(initialState);
-    }
-    return {
-        parameters,
-        onChange,
-        onReset
-    }
-}
+  const initialState = {
+    type: AbiTypeEnum.CONSTRUCTOR,
+    funcName: "",
+    inputs: [
+      {
+        type: "",
+        value: "",
+      },
+    ] as ParameterInput[],
+  };
+  const [parameters, setParameters] = useState<Parameters>(initialState);
+  const onChange = (parameters: Parameters) => {
+    setParameters(parameters);
+  };
+  const onReset = () => {
+    setParameters(initialState);
+  };
+  return {
+    parameters,
+    onChange,
+    onReset,
+  };
+};
 
 export const useAbiEncoder = () => {
-    const [encoded, setEncoded] = useState<string>("");
-    const [encodeErrors, setEncodeErrors] = useState<string[]>([]);
-    const {
-        abi,
-        onChange: onAbiChange,
-        parseError,
-        onParse,
-        abiFunctions
-    } = useAbiParser();
+  const [encoded, setEncoded] = useState<string>("");
+  const [encodeErrors, setEncodeErrors] = useState<string[]>([]);
+  const {
+    abi,
+    onChange: onAbiChange,
+    parseError,
+    onParse,
+    abiFunctions,
+    isParsed,
+    setIsParsed,
+  } = useAbiParser();
 
-    const {
-        parameters,
-        onChange: onParametersChange,
-        onReset
-    } = useParameters();
+  const { parameters, onChange: onParametersChange, onReset } = useParameters();
 
-    const onClear = () => {
-        onAbiChange("");
-        onReset();
+  const onClear = () => {
+    onAbiChange("");
+    onReset();
+    setIsParsed(false);
+  };
+
+  const handleParseClick = () => {
+    onParse();
+    onReset();
+  };
+
+  const onChange = (name: string) => (value: string | Parameters) => {
+    if (name === "parameters") {
+      onParametersChange(value as Parameters);
+    } else if (name === "abi") {
+      onAbiChange(value as string);
     }
+  };
 
-    const handleParseClick = () => {
-        onParse();
-        onReset();
+  useEffect(() => {
+    const abiConstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
+    if (typeof abiConstructor !== "undefined") {
+      onParametersChange({
+        type: AbiTypeEnum.CONSTRUCTOR,
+        funcName: "",
+        inputs: (abiConstructor.inputs || []).map((i) => ({ ...i, value: "" })),
+      });
     }
+  // eslint-disable-next-line
+  }, [abiFunctions]);
 
-    const onChange = (name: string) => (value: string | Parameters) => {
-        if(name === "parameters") {
-            onParametersChange(value as Parameters)
-        } else if(name === "abi") {
-            onAbiChange(value as string);
-        }
-    }
+  useEffect(() => {
+    const { errors, encoded } = encode(parameters);
+    setEncoded(encoded);
+    setEncodeErrors(errors);
+  }, [parameters, parameters.type, parameters.funcName, parameters.inputs]);
 
-    useEffect(() => {
-        const abiConstructor = abiFunctions[AbiTypeEnum.CONSTRUCTOR];
-        if(typeof abiConstructor !== "undefined") {
-            onParametersChange({
-                type: AbiTypeEnum.CONSTRUCTOR,
-                funcName: "",
-                inputs: (abiConstructor.inputs || []).map(i => ({...i, value: "",})),
-            })
-        }
-    }, [abiFunctions])
-
-    useEffect(() => {
-        const {errors, encoded} = encode(parameters);
-        setEncoded(encoded);
-        setEncodeErrors(errors);
-    }, [parameters, parameters.type, parameters.funcName, parameters.inputs])
-
-    return {
-        encoded,
-        encodeErrors,
-        abi,
-        onChange,
-        parseError,
-        onParse: handleParseClick,
-        onClear,
-        abiFunctions,
-        parameters,
-    }
-}
+  return {
+    encoded,
+    encodeErrors,
+    abi,
+    onChange,
+    parseError,
+    onParse: handleParseClick,
+    onClear,
+    abiFunctions,
+    parameters,
+    isParsed,
+  };
+};
