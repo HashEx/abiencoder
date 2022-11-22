@@ -39,7 +39,7 @@ export const getPlaceholder = (type: string, item?: AbiInput) => {
         ""
       );
 
-      if (["address", "string"].includes(c.type)) return `"${typePlaceholder}"`;
+      if (["address", "string", "bytes"].includes(c.type)) return `"${typePlaceholder}"`;
 
       return typePlaceholder;
     });
@@ -48,8 +48,10 @@ export const getPlaceholder = (type: string, item?: AbiInput) => {
         exampleText = `[[${structTypesPlaceholders.join(", ")}]]`;
     }
   } else if (isArray) {
-    if (isUint || isBytes) {
+    if (isUint) {
       exampleText = "[0,1,2]";
+    } else if (isBytes) {
+      exampleText = '["0x00","0x11","0x22"]';
     } else if (isBoolean) {
       exampleText = "[true, false, false]";
     } else if (isAddress) {
@@ -58,8 +60,10 @@ export const getPlaceholder = (type: string, item?: AbiInput) => {
       exampleText = `["str0", "str1", "str2"]`;
     }
   } else {
-    if (isUint || isBytes) {
+    if (isUint) {
       exampleText = "111222333";
+    } else if (isBytes) {
+      exampleText = "0x112233";
     } else if (isBoolean) {
       exampleText = "false";
     } else if (isAddress) {

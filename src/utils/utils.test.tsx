@@ -283,8 +283,8 @@ describe("utils/getPlaceholder", () => {
     "Uint[]": "Example: [0,1,2]",
     Bool: "Example: false",
     "Bool[]": "Example: [true, false, false]",
-    Bytes: "Example: 111222333",
-    "Bytes[]": "Example: [0,1,2]",
+    Bytes: "Example: 0x112233",
+    "Bytes[]": 'Example: ["0x00","0x11","0x22"]',
     String: "Example: str0",
     "String[]": `Example: ["str0", "str1", "str2"]`,
   };
