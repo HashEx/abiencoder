@@ -44,6 +44,9 @@ export const getPlaceholder = (type: string, item?: AbiInput) => {
       return typePlaceholder;
     });
     exampleText = `[${structTypesPlaceholders.join(", ")}]`;
+    if (item?.type.endsWith('[]')) {
+        exampleText = `[[${structTypesPlaceholders.join(", ")}]]`;
+    }
   } else if (isArray) {
     if (isUint || isBytes) {
       exampleText = "[0,1,2]";
@@ -199,6 +202,10 @@ export const encode = (parameters: Parameters) => {
     if (parameters.type !== "constructor" && parameters.funcName) {
       const argumentTypes = types.map((type) => {
         if (!type.includes(AbiInputType.TUPLE)) return type;
+        if (type.endsWith('[]')) {
+            const typesArgs = getTupleArguments(type.slice(0, -2))
+            return `${typesArgs}[]`;
+        }
         // remove tuple keyword according to etherscan decoded function calls
         return getTupleArguments(type);
       });
@@ -234,6 +241,11 @@ export const getStructType = (tuple: AbiInput): string => {
     if (isStructInput(c)) return getStructType(c);
     return c.type;
   });
+
+  if (tuple.type.endsWith("[]")) {
+    return `tuple(${tupleArgs.join(",")})[]`;
+  }
+
   return `tuple(${tupleArgs.join(",")})`;
 };
 
@@ -256,6 +268,9 @@ const getFunctionArgument = (input: AbiInput): string => {
     const tupleArguments = (input.components || [])
       .map(getFunctionArgument)
       .join(",");
+    if (input.type.includes("tuple[]")) {
+        return `(${tupleArguments})[]`;
+    }
     return `(${tupleArguments})`;
   }
   return input.type;
