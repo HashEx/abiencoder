@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Button from "../Button";
 import Banner from "../Banner";
 
-export const TabTitle = styled.h3`
+export const TabTitle = styled.h2`
   font-style: normal;
   line-height: 130%;
   color: ${colors.LIGHT_BLACK};
