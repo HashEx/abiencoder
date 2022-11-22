@@ -144,6 +144,81 @@ describe("utils/encode", () => {
     );
   });
 
+  test("encode function call with array of structs", () => {
+    const parameters: Parameters = {
+      type: "createVote(bytes,(address,uint256,bytes)[],uint64,uint64,bool,uint8)",
+      funcName: "createVote",
+      inputs: [
+        {
+          internalType: "bytes",
+          name: "",
+          originalType: "bytes",
+          type: "bytes",
+          value: "0x11223344"
+        },
+        {
+          components: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address"
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256"
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes"
+            }
+          ],
+          internalType: "struct IDAO.Action[]",
+          name: "",
+          originalType: "tuple[]",
+          type: "tuple(address,uint256,bytes)[]",
+          value: "[[\"0x6b4584A05EB28016aDf0B0A692DD71073Fe4B593\",0,\"0x123456\"]]"
+        },
+        {
+          internalType: "uint64",
+          name: "",
+          originalType: "uint64",
+          type: "uint64",
+          value: "1234"
+        },
+        {
+          internalType: "uint64",
+          name: "",
+          originalType: "uint64",
+          type: "uint64",
+          value: "56789"
+        },
+        {
+          internalType: "bool",
+          name: "",
+          originalType: "bool",
+          type: "bool",
+          value: "false"
+        },
+        {
+          internalType: "enum IMajorityVoting.VoteOption",
+          name: "",
+          originalType: "uint8",
+          type: "uint8",
+          value: "3"
+        }
+      ],
+    };
+
+    const res = encode(parameters);
+    const errors = res.errors.filter(Boolean);
+    expect(errors.length).toEqual(0);
+    expect(res.encoded).toEqual(
+      "e910689700000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000004d2000000000000000000000000000000000000000000000000000000000000ddd50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000041122334400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000006b4584a05eb28016adf0b0a692dd71073fe4b5930000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000031234560000000000000000000000000000000000000000000000000000000000"
+    );
+  });
+
   test("encode function signature", () => {
     const sig =
       "verifyTx(((uint256,uint256),(uint256[2],uint256[2]),(uint256,uint256)),uint256[2])";
