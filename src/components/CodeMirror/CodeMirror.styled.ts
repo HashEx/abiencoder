@@ -19,9 +19,9 @@ export const Wrapper = styled.div`
     width: 100%;
     margin: 0 auto;
     height: 300px;
-    border: 1px solid ${colors.GREY};
-    background-color: ${colors.LIGHT_GREY} !important;
-    color: ${colors.BLACK};
+    border: 1px solid ${colors.DARK_GREY};
+    background-color: ${colors.LIGHT_BLACK} !important;
+    color: ${colors.WHITE};
   }
 
   .cm-focused {
@@ -37,7 +37,7 @@ export const Wrapper = styled.div`
   }
 
   .cm-editor .cm-gutters {
-    background-color: ${colors.LIGHT_GREY};
+    background-color: transparent;
   }
 
   .cm .cm-linenumber {
@@ -62,16 +62,16 @@ export const Wrapper = styled.div`
   }
 
   .cm-line {
-    color: #8b8b8b;
+    color: ${colors.GREEN_SECONDARY};
 
     > span.ͼ13 {
-      color: ${colors.BLACK};
+      color: ${colors.WHITE};
     }
   }
 
   .cm-activeLineGutter,
   .cm-activeLine {
-    background-color: #d9d9d9;
+    background-color: #525151;
   }
 
   .cm-selectionBackground {
@@ -91,5 +91,5 @@ export const Placeholder = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 130%;
-  color: ${colors.BLACK};
+  color: ${colors.LIGHT_GREY};
 `;

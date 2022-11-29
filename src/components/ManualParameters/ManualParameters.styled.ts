@@ -8,7 +8,7 @@ import Banner from "../Banner";
 export const TabTitle = styled.h2`
   font-style: normal;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${colors.WHITE};
   margin-bottom: 25px;
   text-align: center;
   display: none;

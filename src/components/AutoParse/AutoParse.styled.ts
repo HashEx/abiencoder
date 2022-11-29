@@ -54,7 +54,7 @@ export const Row = styled.div`
 export const TabTitle = styled.h3`
   font-style: normal;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${colors.WHITE};
   margin-bottom: 25px;
   text-align: center;
   display: none;
@@ -139,6 +139,7 @@ export const ParseButtons = styled.div`
 export const ClearButton = styled(Button)`
   margin-right: 20px;
   background: transparent;
+  color: ${colors.WHITE};
 
   :before {
     background: ${colors.DARK_GREY};

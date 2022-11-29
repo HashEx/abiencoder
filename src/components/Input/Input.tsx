@@ -1,5 +1,5 @@
-import plus from "../../images/plus.svg";
 import React from "react";
+import Plus from "../Icons/Plus";
 
 import * as s from "./Input.styled";
 
@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = ({
         className="remove-param"
         onClick={onClear}
       >
-        <img src={plus} alt="clear" />
+        <Plus />
       </s.Clear>
     )}
   </s.Wrapper>

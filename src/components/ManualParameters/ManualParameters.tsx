@@ -3,7 +3,6 @@ import FormGroup from "../FormGroup";
 import Input from "../Input";
 import MethodInputs from "../MethodInputs";
 import Select from "../Select";
-import plus from "../../images/plus.svg";
 
 import {
   Parameters,
@@ -19,6 +18,7 @@ import {
   pushGtagParsesActionButton,
 } from "../../utils/gtag";
 import Banner from "../Banner";
+import Plus from "../Icons/Plus";
 
 interface ParametersSectionProps {
   onParametersChange: (parameters: Parameters) => void;
@@ -130,7 +130,7 @@ const ManualParameters: FC<ParametersSectionProps> = ({
             type="button"
             text={
               <>
-                <img src={plus} alt="add argument" />
+                <Plus />
                 Add argument
               </>
             }

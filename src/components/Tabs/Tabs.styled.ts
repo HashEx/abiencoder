@@ -25,7 +25,7 @@ export const Tab = styled.li<{
   active?: boolean;
 }>`
     white-space: nowrap;
-    background-color: ${colors.WHITE};
+    background-color: ${colors.BLACK};
     padding: 17px 26px;
     border-radius: 20px 20px 0px 0px;
     position: relative;
@@ -36,14 +36,14 @@ export const Tab = styled.li<{
     line-height: 120%;
 
     text-align: center;
-    color: ${colors.BLACK};
+    color: ${colors.WHITE};
     padding-bottom: 40px;
     positionL relative;
     top: 20px;
     ${({ active }) =>
       active
         ? ""
-        : `box-shadow: inset 15px 15px 70px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}`};
+        : `box-shadow: inset 15px 15px 70px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}; background-color: ${colors.LIGHT_BLACK};`};
 
     :first-child {
         order: 1;
@@ -54,7 +54,7 @@ export const Tab = styled.li<{
         ${({ active }) =>
           active
             ? ""
-            : `box-shadow: inset 0px 10px 10px rgba(0,0,0,0.10); color: ${colors.DARK_GREY}`};
+            : `box-shadow: inset 0px 10px 10px rgba(0,0,0,0.10); color: ${colors.DARK_GREY}; background-color: ${colors.LIGHT_BLACK};`};
 
     }
 
@@ -69,22 +69,22 @@ export const Tab = styled.li<{
             ${({ active }) =>
               active
                 ? ""
-                : `box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}`};
+                : `box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}; background-color: ${colors.LIGHT_BLACK};`};
         }
         position: initial;
         padding-bottom: 17px;
         ${({ active }) =>
           active
             ? ""
-            : `box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}`};
+            : `box-shadow: inset 0px 0px 10px rgba(0,0,0,0.25); color: ${colors.DARK_GREY}; background-color: ${colors.LIGHT_BLACK};`};
     }
 `;
 
 export const Content = styled.div`
-  background-color: ${colors.WHITE};
+  background-color: ${colors.BLACK};
   display: flex;
   border-radius: 0 0 20px 20px;
-  padding: 0 40px 45px;
+  padding: 40px 40px 45px;
   box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.25);
   @media ${device.TABLET} {
     border-radius: 0 20px 20px 20px;

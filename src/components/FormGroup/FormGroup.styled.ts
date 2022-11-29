@@ -14,7 +14,7 @@ export const FormLabel = styled.label`
   font-weight: 500;
   font-size: 14px;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${colors.WHITE};
 `;
 
 export const Error = styled.div`
