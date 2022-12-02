@@ -36,7 +36,7 @@ export const common = {
       linkHref: `${HASHEX_URL}/smart-contract-audit`,
     },
 
-    { id: 51, linkTitle: "Conducted audits", linkHref: `${HASHEX_URL}/audits` },
+    { id: 51, linkTitle: "Audit Reports", linkHref: `${HASHEX_URL}/audits` },
   ],
   chainsLinks: [
     { id: 25, linkTitle: "BSC", linkHref: `${HASHEX_URL}/chains/bsc` },
@@ -63,6 +63,8 @@ export const common = {
       linkTitle: "Ethereum",
       linkHref: `${HASHEX_URL}/chains/ethereum`,
     },
+    { id: 62, linkTitle: "Neon", linkHref: `${HASHEX_URL}/chains/neon` },
+    { id: 63, linkTitle: "Shardeum", linkHref: `${HASHEX_URL}/chains/shardeum` },
   ],
   companyLinks: [
     {
