@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import "./styles/fonts.css";
 
 import EncodedSection from "./sections/EncodedSection";
@@ -16,6 +16,8 @@ import DescriptionSection from "./sections/DescriptionSection";
 import OtherServices from "./sections/OtherServices";
 import Contacts from "./sections/Contacts";
 import { otherServices } from "./constants/otherServices";
+import { light, dark } from './styles/themes';
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const GlobalStyles = createGlobalStyle`
     html,
@@ -24,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
         font-family: 'Avenir', sans-serif;
+        background: ${({ theme }) => theme.bgDarkColor};
     }
 
     #__next {
@@ -34,6 +37,9 @@ const GlobalStyles = createGlobalStyle`
 
     main {
         flex-grow: 1;
+        transition: all 0.03s linear;
+        background: ${({ theme }) => theme.bgDarkColor};
+        color: ${({ theme }) => theme.textColor};
     }
 
     ul {
@@ -59,19 +65,27 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   const [encdodedData, setEncodedData] = useState<string>("");
+  const [theme, setTheme] = useLocalStorage<string>(
+    'abiTheme',
+    'light'
+);
+
+  const themeToggler = () => {
+    theme === 'light' ? setTheme('dark') : setTheme('light');
+  }
 
   return (
-    <>
+    <ThemeProvider theme={theme === 'light' ? light : dark}>
       <Header common={common} />
       <Layout>
         <Hero
           hero={{
             title: "Online ABI Encoder",
             summary:
-              "Free ABI encoder online service that allows you to encode your Solidity contract’s functions and constructor arguments.",
+              "A free online service for encoding your Solidity contract functions and constructor arguments.",
           }}
         />
-        <SettingsSection setEncodedData={setEncodedData} />
+        <SettingsSection setEncodedData={setEncodedData} themeToggler={themeToggler} theme={theme} />
         <EncodedSection value={encdodedData} />
         <DescriptionSection common={common} />
         <TrustedBySection />
@@ -89,13 +103,13 @@ function App() {
           contacts={common?.contacts}
           telegramLink={common?.telegramChatLink}
           emailLink={common?.socialEmailLink}
-          theme="light"
+          mode="light"
         />
       </Layout>
 
       <Footer common={common} />
       <GlobalStyles />
-    </>
+    </ThemeProvider>
   );
 }
 

@@ -1,4 +1,3 @@
-import colors from "../../helpers/colors";
 import styled from "styled-components";
 import {
   CONTAINER_WIDTH,
@@ -21,7 +20,7 @@ export const Wrapper = styled.section`
 
 export const Link = styled.a`
   text-decoration: underline;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
 `;
 
 export const Content = styled.div`
@@ -36,7 +35,7 @@ export const Content = styled.div`
     margin-right: auto;
   }
 
-  background-color: ${colors.WHITE};
+  background-color: ${props => props.theme.bgDarkColor};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -57,7 +56,7 @@ export const Title = styled.h3`
   font-weight: 700;
   font-size: 16px;
   line-height: 120%;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
   margin-bottom: 20px;
 
   @media ${device.TABLET} {
@@ -75,7 +74,7 @@ export const SubTitle = styled.span`
   font-weight: 700;
   line-height: 120%;
   font-size: 16px;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
   margin-bottom: 20px;
 
   @media ${device.TABLET} {
@@ -133,7 +132,7 @@ export const Text = styled.p`
   font-size: 14px;
   line-height: 130%;
   max-width: max-content;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
 
   @media ${device.TABLET} {
     font-size: 16px;
@@ -147,7 +146,7 @@ export const ContactText = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 130%;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
   margin-right: 10px;
 
   @media ${device.TABLET} {

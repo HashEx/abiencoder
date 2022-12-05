@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from "react";
 import { components } from "react-select";
+import Arrow from "../Icons/Arrow";
 
 import * as s from "./Select.styled";
-import arrow from "../../images/select-arrow.svg";
 
 interface Option {
   label: string;
@@ -22,7 +22,7 @@ interface SelectProps {
 const DropdownIndicator = (props: any) =>
   components.DropdownIndicator && (
     <components.DropdownIndicator {...props}>
-      <img src={arrow} alt="open" />
+      <Arrow />
     </components.DropdownIndicator>
   );
 

@@ -16,7 +16,7 @@ interface IContacts {
 }
 
 interface IContactsProps {
-  theme: "light" | "dark";
+  mode: "light" | "dark";
   contacts: IContacts;
   telegramLink: string;
   emailLink: string;
@@ -25,12 +25,12 @@ interface IContactsProps {
 const onRequestClick = () => pushRequestAuditClick();
 
 const Contacts: React.FC<IContactsProps> = ({
-  theme,
+  mode,
   contacts,
   telegramLink,
   emailLink,
 }) => (
-  <s.Contacts theme={theme}>
+  <s.Contacts mode={mode}>
     <s.Container>
       <s.Title>{contacts?.title}</s.Title>
 
@@ -38,7 +38,7 @@ const Contacts: React.FC<IContactsProps> = ({
         <s.Links>
           <s.Link
             href={telegramLink}
-            theme={theme}
+            mode={mode}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -48,7 +48,7 @@ const Contacts: React.FC<IContactsProps> = ({
 
           <s.Link
             href={`mailto:${emailLink}`}
-            theme={theme}
+            mode={mode}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -56,7 +56,7 @@ const Contacts: React.FC<IContactsProps> = ({
             {contacts?.email}
           </s.Link>
           <s.WeChatWrapper>
-            <s.Link theme={theme}>
+            <s.Link mode={mode}>
               <WeChatIcon />
               WeChat
             </s.Link>

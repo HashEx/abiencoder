@@ -2,10 +2,14 @@ import colors from "../../helpers/colors";
 import styled from "styled-components";
 import device from "../../helpers/device";
 
-export const Input = styled.input`
+export const Input = styled.input<{
+  value?: any
+}>`
   border: none;
   outline: none;
-  border-bottom: 1px solid ${colors.GREY};
+  background-color: transparent;
+
+  border-bottom: 1px solid ${({ value, theme }) => (value ? colors.GREEN_SECONDARY : theme.borderColor)};
 
   font-family: "PT Mono";
   font-style: normal;
@@ -20,7 +24,7 @@ export const Input = styled.input`
   width: 100%;
   align-self: end;
 
-  color: ${colors.LIGHT_BLACK};
+  color: ${props => props.theme.textColor3};
 
   @media ${device.TABLET} {
     font-size: 14px;
@@ -44,8 +48,6 @@ export const Clear = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: #929292;
-  > img {
-    transform: rotate(45deg);
-  }
+  color: ${props => props.theme.indicatorColor};
+  transform: rotate(45deg);
 `;

@@ -54,7 +54,7 @@ export const Row = styled.div`
 export const TabTitle = styled.h3`
   font-style: normal;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${props => props.theme.textColor};
   margin-bottom: 25px;
   text-align: center;
   display: none;
@@ -116,6 +116,10 @@ export const AutoParse = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  margin-top: 50px;
+  @media ${device.TABLET} {
+    margin-top: 0;
+  }
 `;
 
 export const CodeWrapper = styled.div`
@@ -139,6 +143,7 @@ export const ParseButtons = styled.div`
 export const ClearButton = styled(Button)`
   margin-right: 20px;
   background: transparent;
+  color: ${props => props.theme.textColor};
 
   :before {
     background: ${colors.DARK_GREY};

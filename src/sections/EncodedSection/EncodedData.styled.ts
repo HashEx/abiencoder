@@ -1,4 +1,3 @@
-import colors from "../../helpers/colors";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import {
@@ -36,7 +35,7 @@ export const Content = styled.div`
     margin-right: auto;
   }
 
-  background-color: ${colors.WHITE};
+  background-color: ${props => props.theme.bgColor};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -54,7 +53,7 @@ export const Title = styled.span`
   font-weight: 400;
   font-size: 20px;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${props => props.theme.textColor};
   margin-bottom: 25px;
 
   @media ${device.MOBILE_LARGE} {
@@ -74,8 +73,9 @@ export const CopyButton = styled(Button)`
 export const Textarea = styled.textarea`
   font-family: "PT Mono";
   padding: 10px 15px;
-  border: 1px solid ${colors.GREY};
-  background: ${colors.LIGHT_GREY};
+  border: 1px solid ${props => props.theme.borderColor};
+  background: ${props => props.theme.bgLightColor};
+  color: ${props => props.theme.textColor};
   border-radius: 5px;
   width: 100%;
   max-width: -webkit-fill-available;
