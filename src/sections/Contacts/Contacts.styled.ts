@@ -14,17 +14,17 @@ import qr from "../../images/tooltip-wechat.svg";
 import styled from "styled-components";
 
 interface IContract {
-  theme: "light" | "dark";
+  mode: "light" | "dark";
 }
 
 export const Contacts = styled.section<IContract>`
   padding: 40px ${MOBILE_SIDE_SPACE};
-  color: ${({ theme }) =>
-    theme === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK};
-  background-color: ${({ theme }) =>
-    theme === "dark" ? colors.BLACK : colors.WHITE};
-  background-image: ${({ theme }) =>
-    theme === "dark" ? `url(${darkBg})` : `url(${lightBg})`};
+  color: ${({ mode }) =>
+    mode === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK};
+  background-color: ${({ mode }) =>
+    mode === "dark" ? colors.BLACK : colors.WHITE};
+  background-image: ${({ mode }) =>
+    mode === "dark" ? `url(${darkBg})` : `url(${lightBg})`};
   background-repeat: no-repeat;
   background-size: 100% 100%;
 
@@ -170,10 +170,10 @@ export const Link = styled.a<IContract>`
   padding-top: 15px;
   padding-bitton: 10px;
   ${typography.BODY6};
-  color: ${({ theme }) =>
-    theme === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK};
-  ${({ theme }) =>
-    underline(theme === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK)};
+  color: ${({ mode }) =>
+    mode === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK};
+  ${({ mode }) =>
+    underline(mode === "dark" ? colors.LIGHT_GREY : colors.LIGHT_BLACK)};
 
   & svg {
     margin-top: 2px;

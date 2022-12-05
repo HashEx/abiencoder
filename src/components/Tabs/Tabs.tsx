@@ -6,8 +6,10 @@ import * as s from "./Tabs.styled";
 interface TabsProps {
   setShowModal: (v: boolean) => void;
   onTabClick: (tab: string) => void;
+  themeToggler: () => void;
   children: any;
   width: number;
+  theme: string;
 }
 
 const Tabs: React.FC<TabsProps> = ({
@@ -15,6 +17,8 @@ const Tabs: React.FC<TabsProps> = ({
   setShowModal,
   onTabClick,
   width,
+  themeToggler,
+  theme
 }) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   const onClickTabItem = (tab: string) => {
@@ -42,6 +46,7 @@ const Tabs: React.FC<TabsProps> = ({
         })}
       </s.Tabs>
       <s.Content>
+        <s.ThemeSwitcher themeToggler={themeToggler} mode={theme} />
         {children.map((child: { props: { label: any } }) => {
           if (child.props.label !== activeTab) return undefined;
           return child;

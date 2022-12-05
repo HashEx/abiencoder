@@ -216,7 +216,7 @@ export const ModalWrapper = styled.div`
   box-sizing: border-box;
   border-radius: 20px;
   padding: 40px 20px;
-  background: ${colors.WHITE};
+  background: ${props => props.theme.bgColor};
   display: flex;
   align-items: center;
   gap: 20px;
@@ -232,7 +232,7 @@ export const ModalText = styled.span`
   width: 90%;
   text-align: center;
 
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
 `;
 
 export const OkButton = styled(Button)`

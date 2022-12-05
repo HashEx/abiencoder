@@ -1,4 +1,3 @@
-import colors from "../../helpers/colors";
 import styled from "styled-components";
 
 export const FormGroup = styled.div`
@@ -14,7 +13,7 @@ export const FormLabel = styled.label`
   font-weight: 500;
   font-size: 14px;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${props => props.theme.textColor};
 `;
 
 export const Error = styled.div`

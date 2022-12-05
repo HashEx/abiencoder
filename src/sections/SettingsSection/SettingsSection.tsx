@@ -15,9 +15,11 @@ import Banner from "../../components/Banner";
 
 interface AbiSettingsProps {
   setEncodedData: (data: string) => void;
+  themeToggler: () => void;
+  theme: string;
 }
 
-const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData }) => {
+const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData, themeToggler, theme }) => {
   const [activeTab, setActiveTab] = useState<string>(
     TabsLabel.MANUAL_PARAMETERS
   );
@@ -68,6 +70,8 @@ const AbiSettings: React.FC<AbiSettingsProps> = ({ setEncodedData }) => {
           setShowModal={setShowModal}
           onTabClick={handleTabClick}
           width={width}
+          themeToggler={themeToggler}
+          theme={theme}
         >
           <ManualParameters
             onParametersChange={onChange("parameters")}

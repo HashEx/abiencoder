@@ -1,4 +1,3 @@
-import colors from "../../helpers/colors";
 import device from "../../helpers/device";
 
 import styled from "styled-components";
@@ -8,7 +7,7 @@ import Banner from "../Banner";
 export const TabTitle = styled.h2`
   font-style: normal;
   line-height: 130%;
-  color: ${colors.LIGHT_BLACK};
+  color: ${props => props.theme.textColor};
   margin-bottom: 25px;
   text-align: center;
   display: none;
@@ -40,9 +39,11 @@ export const ManualParameters = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 50px;
 
   @media ${device.TABLET} {
     align-items: flex-start;
+    margin-top: 0;
   }
 `;
 

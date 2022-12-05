@@ -19,9 +19,9 @@ export const Wrapper = styled.div`
     width: 100%;
     margin: 0 auto;
     height: 300px;
-    border: 1px solid ${colors.GREY};
-    background-color: ${colors.LIGHT_GREY} !important;
-    color: ${colors.BLACK};
+    border: 1px solid ${props => props.theme.borderColor};
+    background-color: ${props => props.theme.bgLightColor} !important;
+    color: ${props => props.theme.bgColor};
   }
 
   .cm-focused {
@@ -37,7 +37,7 @@ export const Wrapper = styled.div`
   }
 
   .cm-editor .cm-gutters {
-    background-color: ${colors.LIGHT_GREY};
+    background-color: ${props => props.theme.editorColor};
   }
 
   .cm .cm-linenumber {
@@ -62,16 +62,16 @@ export const Wrapper = styled.div`
   }
 
   .cm-line {
-    color: #8b8b8b;
+    color: ${props => props.theme.indicatorColor};
 
     > span.ͼ13 {
-      color: ${colors.BLACK};
+      color: ${props => props.theme.textColor};
     }
   }
 
   .cm-activeLineGutter,
   .cm-activeLine {
-    background-color: #d9d9d9;
+    background-color: ${props => props.theme.editorLineColor};
   }
 
   .cm-selectionBackground {
@@ -91,5 +91,5 @@ export const Placeholder = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 130%;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor2};
 `;

@@ -1,4 +1,3 @@
-import colors from "../../helpers/colors";
 import styled from "styled-components";
 import {
   CONTAINER_WIDTH,
@@ -30,7 +29,7 @@ export const Content = styled.div`
     margin-right: auto;
   }
 
-  background-color: ${colors.WHITE};
+  background-color: ${props => props.theme.bgDarkColor};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -66,7 +65,7 @@ export const FirstText = styled.p`
   font-weight: 500;
   font-size: 16px;
   line-height: 120%;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
   width: 100%;
 
   @media ${device.TABLET} {
@@ -83,7 +82,7 @@ export const SecondText = styled.p`
   font-weight: 400;
   font-size: 12px;
   line-height: 130%;
-  color: ${colors.BLACK};
+  color: ${props => props.theme.textColor};
   width: 100%;
 
   @media ${device.TABLET} {
