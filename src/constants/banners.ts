@@ -6,7 +6,7 @@ import dsaMob from "../images/dsaMob.svg";
 import maximizer from "../images/maximizer.svg";
 import maximizerMob from "../images/maximizerMob.svg";
 import hashex from "../images/HashExBanner.jpg";
-import hashexMob from "../images/HashExBannerMobs.jpg";
+import hashexMob from "../images/HashExBannerMob.jpg";
 
 export const banners = [
   {
