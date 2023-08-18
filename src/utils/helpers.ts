@@ -130,6 +130,6 @@ export const getRandomInt = (min: number, max: number) => {
 };
 
 export const getBanner = () => {
-  const index = getRandomInt(0, 2);
+  const index = getRandomInt(0, banners.length - 1);
   return banners[index];
 };
