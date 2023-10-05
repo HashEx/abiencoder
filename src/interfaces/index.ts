@@ -28,7 +28,7 @@ export enum AbiTypeEnum {
 export enum AbiInputType {
   "TUPLE" = "tuple",
   "STRING" = "string",
-  "ADDRESS" = "adress",
+  "ADDRESS" = "address",
   "BOOLEAN" = "bool",
 }
 
