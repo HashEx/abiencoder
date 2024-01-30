@@ -1,12 +1,12 @@
-import { DSA_URL, MAXIMIZER_URL, HASHEX_URL, TELEGRAM_BOT_URL } from "../constants/links";
+import { DSA_URL, TELEGRAM_BOT_URL } from "../constants/links";
 import telegramBot from "../images/telegramBot.jpeg";
 import telegramBotMob from "../images/telegramBotMob.svg";
 import dsa from "../images/dsa.jpg";
 import dsaMob from "../images/dsaMob.svg";
-import maximizer from "../images/maximizer.jpeg";
-import maximizerMob from "../images/maximizerMob.svg";
 import hashex from "../images/HashExBanner.jpeg";
 import hashexMob from "../images/HashExBannerMob.jpeg";
+import hashexContacts from "../images/HashExContacts.jpg";
+import hashexContactsMob from "../images/HashExContactsMob.jpg";
 
 export const banners = [
   {
@@ -22,15 +22,15 @@ export const banners = [
     srcMob: dsaMob,
   },
   {
-    alt: "Maximize your lendings",
-    src: maximizer,
-    link: MAXIMIZER_URL,
-    srcMob: maximizerMob,
-  },
-  {
     alt: "HashEx",
     src: hashex,
     link: "https://hashex.org/smart-contract-audit/",
     srcMob: hashexMob,
+  },
+  {
+    alt: 'HashEx Contacts',
+    src: hashexContacts,
+    srcMob: hashexContactsMob,
+    link: "https://hashex.org/contacts/",
   }
 ];
